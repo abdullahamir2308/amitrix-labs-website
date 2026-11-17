@@ -2,49 +2,86 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/*
+ * Amitrix Labs design system (Phase 3).
+ * Brand palette "Lab (default)" — see CLAUDE.md > Brand.
+ *   Paper #FAFAF9 · Ink #0A0A12 · Indigo #5B4CF5 · Cyan #22D3EE · Slate #64748B
+ *   Line #E5E7EB (light) / #1F2030 (dark)
+ *
+ * Theming: next-themes toggles `.dark` on <html>. Any element with
+ * `.section-dark` or `data-theme-section="dark"` forces the ink palette for
+ * its subtree, regardless of the site theme (hybrid look). The `dark:`
+ * variant matches inside those sections too.
+ */
 
+@custom-variant dark (&:is(.dark *, .section-dark, .section-dark *, [data-theme-section="dark"], [data-theme-section="dark"] *));
+
+/* ------------------------------------------------------------------------ */
+/* Tokens that reference runtime CSS variables                               */
+/* ------------------------------------------------------------------------ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-geist-sans);
+  /* Fonts (Geist from the `geist` package via next/font/local) */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+  --font-heading: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand primitives (fixed, theme-independent) */
   --color-paper: var(--brand-paper);
   --color-ink: var(--brand-ink);
+  --color-indigo: var(--brand-indigo);
+  --color-cyan: var(--brand-cyan);
+  --color-slate: var(--brand-slate);
+  /* Phase 2 aliases, still used by /brand */
   --color-brand-indigo: var(--brand-indigo);
   --color-brand-cyan: var(--brand-cyan);
   --color-brand-slate: var(--brand-slate);
-  --color-line: var(--border);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
+
+  /* Theme-aware brand roles */
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-highlight: var(--highlight);
+  --color-signal: var(--signal);
+  --color-grid-line: var(--grid-line);
+
+  /* shadcn/ui semantic tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
   --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Radius */
+  --radius-xs: calc(var(--radius) * 0.4);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -52,13 +89,108 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Shadows (theme-aware) */
+  --shadow-soft: 0 1px 2px var(--shadow-color), 0 4px 12px -4px var(--shadow-color);
+  --shadow-card: 0 1px 0 var(--shadow-color), 0 12px 32px -16px var(--shadow-color-strong);
+  --shadow-elevated: 0 2px 4px var(--shadow-color), 0 24px 64px -24px var(--shadow-color-strong);
 }
 
-/*
- * Brand palette: "Lab (default)" — see CLAUDE.md > Brand. Mapped onto shadcn/ui tokens.
- * Paper #FAFAF9, Ink #0A0A12, Indigo #5B4CF5, Cyan #22D3EE, Slate #64748B,
- * Line #E5E7EB (light) / #1F2030 (dark). Full token system arrives in Phase 3.
- */
+/* ------------------------------------------------------------------------ */
+/* Static tokens                                                             */
+/* ------------------------------------------------------------------------ */
+@theme {
+  /* Glow shadows */
+  --shadow-glow-indigo: 0 0 0 1px rgb(91 76 245 / 0.35), 0 8px 28px -6px rgb(91 76 245 / 0.55);
+  --shadow-glow-indigo-lg: 0 0 0 1px rgb(91 76 245 / 0.4), 0 16px 64px -12px rgb(91 76 245 / 0.65);
+  --shadow-glow-cyan: 0 0 0 1px rgb(34 211 238 / 0.35), 0 8px 28px -6px rgb(34 211 238 / 0.45);
+  --shadow-glow-cyan-lg: 0 0 0 1px rgb(34 211 238 / 0.4), 0 16px 64px -12px rgb(34 211 238 / 0.55);
+
+  /* Layout rhythm: py-section, py-section-sm, py-section-lg, px-gutter */
+  --spacing-section-sm: clamp(3.5rem, 2.75rem + 3vw, 5.5rem);
+  --spacing-section: clamp(5rem, 3.5rem + 6vw, 9rem);
+  --spacing-section-lg: clamp(6.5rem, 4rem + 9vw, 12rem);
+  --spacing-gutter: clamp(1.25rem, 0.85rem + 1.6vw, 2.5rem);
+
+  /* Container widths: max-w-prose-site, max-w-narrow, max-w-site, max-w-wide */
+  --container-prose-site: 42rem;
+  --container-narrow: 64rem;
+  --container-site: 80rem;
+  --container-wide: 92rem;
+
+  /* Easing (mirror src/lib/motion.ts) */
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quart-out: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /*
+   * Fluid type scale (360px → 1440px). Use as text-display-2xl … text-caption.
+   * Each step bundles size, line height, tracking and weight.
+   */
+  --text-display-2xl: clamp(3.25rem, 2.1rem + 5.2vw, 7.5rem);
+  --text-display-2xl--line-height: 0.95;
+  --text-display-2xl--letter-spacing: -0.045em;
+  --text-display-2xl--font-weight: 600;
+
+  --text-display-xl: clamp(2.75rem, 1.9rem + 3.9vw, 6rem);
+  --text-display-xl--line-height: 0.98;
+  --text-display-xl--letter-spacing: -0.04em;
+  --text-display-xl--font-weight: 600;
+
+  --text-display-lg: clamp(2.375rem, 1.75rem + 2.8vw, 4.5rem);
+  --text-display-lg--line-height: 1.02;
+  --text-display-lg--letter-spacing: -0.035em;
+  --text-display-lg--font-weight: 600;
+
+  --text-display-md: clamp(2rem, 1.55rem + 2vw, 3.5rem);
+  --text-display-md--line-height: 1.06;
+  --text-display-md--letter-spacing: -0.03em;
+  --text-display-md--font-weight: 600;
+
+  --text-heading-lg: clamp(1.625rem, 1.35rem + 1.25vw, 2.5rem);
+  --text-heading-lg--line-height: 1.12;
+  --text-heading-lg--letter-spacing: -0.025em;
+  --text-heading-lg--font-weight: 600;
+
+  --text-heading-md: clamp(1.3125rem, 1.15rem + 0.7vw, 1.875rem);
+  --text-heading-md--line-height: 1.2;
+  --text-heading-md--letter-spacing: -0.02em;
+  --text-heading-md--font-weight: 600;
+
+  --text-heading-sm: clamp(1.0625rem, 1rem + 0.3vw, 1.3125rem);
+  --text-heading-sm--line-height: 1.3;
+  --text-heading-sm--letter-spacing: -0.012em;
+  --text-heading-sm--font-weight: 600;
+
+  --text-body-lg: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--letter-spacing: -0.008em;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.65;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.6;
+
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+
+  /* Marquee */
+  --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(calc(-100% - var(--marquee-gap, 3rem)), 0, 0);
+    }
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Theme values                                                              */
+/* ------------------------------------------------------------------------ */
 :root {
   --brand-paper: #fafaf9;
   --brand-ink: #0a0a12;
@@ -66,8 +198,23 @@
   --brand-cyan: #22d3ee;
   --brand-slate: #64748b;
 
+  --radius: 0.625rem;
+
+  /* Light (paper) */
   --background: var(--brand-paper);
   --foreground: var(--brand-ink);
+  --surface: #f3f3f1;
+  --surface-raised: #ffffff;
+  --line: #e5e7eb;
+  --line-strong: #d4d6dc;
+  /* Indigo text on paper: 5.6:1. Cyan text on paper uses cyan-700 for AA. */
+  --highlight: var(--brand-indigo);
+  --signal: #0e7490;
+  --grid-line: rgb(10 10 18 / 0.06);
+  --shadow-color: rgb(10 10 18 / 0.05);
+  --shadow-color-strong: rgb(10 10 18 / 0.14);
+  --grain-opacity: 0.035;
+
   --card: #ffffff;
   --card-foreground: var(--brand-ink);
   --popover: #ffffff;
@@ -77,33 +224,50 @@
   --secondary: #f0f0ee;
   --secondary-foreground: var(--brand-ink);
   --muted: #f0f0ee;
-  --muted-foreground: var(--brand-slate);
+  --muted-foreground: #5b6577;
   --accent: #f0f0ee;
   --accent-foreground: var(--brand-ink);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #e5e7eb;
-  --input: #e5e7eb;
+  --success: #047857;
+  --warning: #b45309;
+  --border: var(--line);
+  --input: var(--line-strong);
   --ring: var(--brand-indigo);
+
   --chart-1: var(--brand-indigo);
   --chart-2: var(--brand-cyan);
   --chart-3: var(--brand-slate);
   --chart-4: #8c7cff;
   --chart-5: #0e7490;
-  --radius: 0.625rem;
+
   --sidebar: var(--brand-paper);
   --sidebar-foreground: var(--brand-ink);
   --sidebar-primary: var(--brand-indigo);
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #f0f0ee;
   --sidebar-accent-foreground: var(--brand-ink);
-  --sidebar-border: #e5e7eb;
+  --sidebar-border: var(--line);
   --sidebar-ring: var(--brand-indigo);
 }
 
-.dark {
+/* Dark (ink): site-wide dark mode AND forced-dark sections share one block. */
+.dark,
+.section-dark,
+[data-theme-section="dark"] {
   --background: var(--brand-ink);
   --foreground: var(--brand-paper);
-  --card: #12121c;
+  --surface: #11111b;
+  --surface-raised: #151521;
+  --line: #1f2030;
+  --line-strong: #2c2d42;
+  --highlight: #8c7cff;
+  --signal: var(--brand-cyan);
+  --grid-line: rgb(250 250 249 / 0.055);
+  --shadow-color: rgb(0 0 0 / 0.35);
+  --shadow-color-strong: rgb(0 0 0 / 0.6);
+  --grain-opacity: 0.06;
+
+  --card: #101019;
   --card-foreground: var(--brand-paper);
   --popover: #12121c;
   --popover-foreground: var(--brand-paper);
@@ -111,33 +275,320 @@
   --primary-foreground: #ffffff;
   --secondary: #1a1a28;
   --secondary-foreground: var(--brand-paper);
-  --muted: #1a1a28;
-  /* Slate #64748B is 4.1:1 on ink, so muted text uses a lighter slate for WCAG AA. */
-  --muted-foreground: #94a3b8;
+  --muted: #171724;
+  /* Slate #64748B is only 4.1:1 on ink, so muted text uses a lighter slate for WCAG AA. */
+  --muted-foreground: #9aa5b8;
   --accent: #1a1a28;
   --accent-foreground: var(--brand-paper);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: #1f2030;
-  --input: #2a2b3d;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --border: var(--line);
+  --input: var(--line-strong);
   --ring: #8c7cff;
+
   --sidebar: #12121c;
   --sidebar-foreground: var(--brand-paper);
   --sidebar-primary: var(--brand-indigo);
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #1a1a28;
   --sidebar-accent-foreground: var(--brand-paper);
-  --sidebar-border: #1f2030;
+  --sidebar-border: var(--line);
   --sidebar-ring: #8c7cff;
 }
 
+.dark {
+  color-scheme: dark;
+}
+
+/* A forced-dark section paints itself, whatever the site theme is. */
+.section-dark,
+[data-theme-section="dark"] {
+  color-scheme: dark;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Base                                                                      */
+/* ------------------------------------------------------------------------ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
   html {
     @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
   }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv11";
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background-color: rgb(91 76 245 / 0.22);
+  }
+  :where(a, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html:not(.lenis) {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Type utilities that need more than a font size                            */
+/* ------------------------------------------------------------------------ */
+
+/* Mono uppercase label (buttons-adjacent meta, table heads, stats units). */
+@utility text-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+/* "// 01 — SERVICES" eyebrow. The <Eyebrow> component renders the markup. */
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Backgrounds                                                               */
+/* ------------------------------------------------------------------------ */
+
+/* Fine line grid. Colour follows the theme (and .section-dark). */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-size, 56px) var(--grid-size, 56px);
+  background-position: var(--grid-offset, -1px -1px);
+}
+
+@utility bg-grid-fine {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-size, 24px) var(--grid-size, 24px);
+  background-position: var(--grid-offset, -1px -1px);
+}
+
+@utility bg-dots {
+  background-image: radial-gradient(var(--grid-line) 1px, transparent 1.2px);
+  background-size: var(--grid-size, 20px) var(--grid-size, 20px);
+}
+
+/* Fade masks for grids / glows. */
+@utility mask-fade-radial {
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+@utility mask-fade-y {
+  mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 82%, transparent);
+}
+@utility mask-fade-x {
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* Film grain: fixed overlay rendered once in layout.tsx. */
+@utility grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Same grain, scoped to a positioned parent (absolute instead of fixed). */
+@utility grain-local {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Motion primitives support                                                 */
+/* ------------------------------------------------------------------------ */
+
+/* <Reveal>: Motion writes opacity/transform inline; reduced motion forces the final state. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/*
+ * <TextReveal>: hide until SplitText has split the lines (avoids a flash of
+ * unsplit text). Failsafe: show after 2.5s even if JS never runs. The
+ * <noscript> style in layout.tsx shows it immediately without JS.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  [data-text-reveal]:not([data-ready]) {
+    visibility: hidden;
+    animation: text-reveal-failsafe 0s linear 2.5s forwards;
+  }
+}
+@keyframes text-reveal-failsafe {
+  to {
+    visibility: visible;
+  }
+}
+
+/* <Marquee> */
+.marquee {
+  --marquee-gap: 3rem;
+  display: flex;
+  gap: var(--marquee-gap);
+  overflow: hidden;
+  user-select: none;
+}
+.marquee-track {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--marquee-gap);
+  min-width: 100%;
+  animation: var(--animate-marquee);
+}
+.marquee[data-direction="right"] .marquee-track {
+  animation-direction: reverse;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    justify-content: center;
+  }
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    flex-shrink: 1;
+    justify-content: center;
+    row-gap: 1rem;
+  }
+  .marquee-track[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* <SpotlightCard>: cursor-following glow on the 1px border + faint inner wash. */
+.spotlight {
+  --spot-x: 50%;
+  --spot-y: 0%;
+  --spot-size: 360px;
+  --spot-color: rgb(91 76 245 / 0.9);
+  --spot-opacity: 0;
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before,
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--spot-opacity);
+  transition: opacity 400ms var(--ease-expo-out);
+}
+.spotlight::before {
+  z-index: 1;
+  inset: -1px;
+  padding: 1px;
+  background: radial-gradient(
+    var(--spot-size) circle at var(--spot-x) var(--spot-y),
+    var(--spot-color),
+    transparent 65%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+.spotlight::after {
+  z-index: -1;
+  background: radial-gradient(
+    calc(var(--spot-size) * 1.2) circle at var(--spot-x) var(--spot-y),
+    color-mix(in srgb, var(--spot-color) 14%, transparent),
+    transparent 70%
+  );
+}
+.spotlight:hover,
+.spotlight:focus-within {
+  --spot-opacity: 1;
+}
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  /* Static fallback: a soft top-centre highlight that never moves. */
+  .spotlight {
+    --spot-x: 50% !important;
+    --spot-y: 0% !important;
+    --spot-opacity: 0.55;
+  }
+}
+
+/* <CustomCursor>: hide the native cursor only while the custom one is active. */
+html[data-custom-cursor],
+html[data-custom-cursor] * {
+  cursor: none !important;
+}
+html[data-custom-cursor] :is(input, textarea, select, [contenteditable="true"]) {
+  cursor: text !important;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Lenis (from lenis/dist/lenis.css)                                         */
+/* ------------------------------------------------------------------------ */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch],
+.lenis [data-lenis-prevent-vertical],
+.lenis [data-lenis-prevent-horizontal] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+.lenis.lenis-autoToggle {
+  transition-property: overflow;
+  transition-duration: 1ms;
+  transition-behavior: allow-discrete;
 }

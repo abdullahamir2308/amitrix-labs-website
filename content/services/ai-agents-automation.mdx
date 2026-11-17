@@ -1,0 +1,66 @@
+---
+# DRAFT COPY — written as a starting point. Review every line before launch.
+# Service names are real offerings; the copy below is a draft, not a promise.
+title: AI Agents & Automation
+shortTitle: AI Agents
+slug: ai-agents-automation
+summary: Production-grade AI agents and automations that take repetitive work off your team — grounded in your data, wired into your tools, and measured like any other system.
+icon: Bot
+image: /placeholders/services/ai-agents-automation.svg
+order: 1
+problems:
+  - Your team spends hours a week copying data between tools, inboxes and spreadsheets.
+  - You tried an AI chatbot, but it hallucinates, can't reach your systems and nobody trusts it.
+  - Support, sales or operations can't scale without hiring for every new spike in volume.
+  - You have a promising AI prototype that never made it into production.
+deliverables:
+  - Discovery of the highest-value workflows to automate, with an effort/impact map
+  - AI agents with tool use (CRM, ERP, ticketing, email, internal APIs) and human-in-the-loop approvals
+  - Retrieval (RAG) over your documents and data, with access control
+  - Evaluation suite and guardrails so quality is measured, not guessed
+  - Monitoring dashboards for cost, latency and accuracy
+  - Handover docs and training for your team
+process:
+  - title: Map the work
+    description: We shadow the workflow, measure where the time goes and pick the first agent with a clear payback.
+  - title: Prototype with real data
+    description: A working agent in days, tested against real examples from your business — not a demo script.
+  - title: Harden for production
+    description: Guardrails, evaluations, permissions, fallbacks to a human, logging and cost controls.
+  - title: Launch and improve
+    description: Roll out to a pilot group, track the metrics we agreed on, then expand to the next workflow.
+techStack:
+  - OpenAI / Anthropic model APIs
+  - Open-source LLMs
+  - LangGraph
+  - Vercel AI SDK
+  - Python
+  - TypeScript
+  - Postgres + pgvector
+  - n8n / Zapier
+faqs:
+  - q: Which AI models do you use?
+    a: We are model-agnostic. We pick per task based on quality, cost, latency and data-privacy needs, and design the system so models can be swapped later.
+  - q: Is our data used to train public models?
+    a: No. We use API tiers and deployment options that do not train on your data, and we can run open-source models inside your own cloud when required.
+  - q: How do you stop agents from making mistakes?
+    a: Every agent ships with an evaluation set, guardrails, scoped permissions and human approval for high-impact actions. We monitor accuracy after launch, not just before.
+  - q: How long does a first agent take?
+    a: "[Placeholder] Typically a few weeks from discovery to a pilot, depending on integrations. Confirm your real timelines before publishing."
+relatedWork:
+  - logistics-dispatch-agent
+  - retail-inventory-forecasting
+---
+
+## Agents that do real work
+
+{/* DRAFT COPY — replace with your own voice. */}
+
+Most AI projects stall between the demo and production. We build agents the way we build any critical software: with clear success metrics, tests, permissions and monitoring — so your team can trust them with real work.
+
+## Where agents pay off first
+
+- **Operations:** triage, routing, data entry, reconciliation, report generation.
+- **Customer support:** drafting replies, summarising tickets, answering from your knowledge base.
+- **Sales:** lead research, CRM hygiene, proposal first drafts.
+- **Back office:** document processing, invoice matching, compliance checks.

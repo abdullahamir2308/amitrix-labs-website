@@ -1,0 +1,65 @@
+---
+# [Placeholder] post — sample article to test the blog layout. Rewrite or delete before launch.
+title: "[Placeholder] How we build AI agents that hold up in production"
+slug: building-ai-agents-in-production
+date: 2026-10-14
+author: founder
+tags:
+  - AI agents
+  - Engineering
+cover: /placeholders/posts/building-ai-agents-in-production.svg
+excerpt: "[Placeholder] The difference between an impressive demo and an agent your team trusts is mostly boring engineering: evaluations, permissions and observability."
+featured: true
+---
+
+[Placeholder] This is a sample article. It exists so the article layout, table of contents, code highlighting and reading time can be tested before real posts are written.
+
+## Start with the job, not the model
+
+[Placeholder] Pick one workflow with a clear owner and a measurable outcome. Write down what "good" looks like before writing any code.
+
+- [Placeholder] Who does this work today?
+- [Placeholder] How long does it take, and how often?
+- [Placeholder] What does a mistake cost?
+
+## Give the agent tools, not freedom
+
+[Placeholder] Agents become useful when they can act — and safe when every action is scoped. A typed tool definition makes the contract explicit:
+
+```ts title="tools/lookup-order.ts"
+import { z } from "zod";
+
+export const lookupOrder = {
+  name: "lookup_order",
+  description: "Fetch an order by id. Read-only.",
+  input: z.object({ orderId: z.string().min(1) }),
+  async run({ orderId }: { orderId: string }) {
+    const order = await db.orders.findUnique({ where: { id: orderId } });
+    if (!order) return { found: false } as const;
+    return { found: true, status: order.status, eta: order.eta } as const;
+  },
+};
+```
+
+### Keep a human in the loop
+
+[Placeholder] Anything that spends money, sends a message to a customer or changes a record goes through an approval step first.
+
+## Measure everything
+
+[Placeholder] An evaluation set of real examples turns "it seems better" into a number you can track on every change.
+
+```bash
+npm run eval -- --suite dispatch --compare main
+```
+
+> [Placeholder] A pull-quote to test blockquote styling.
+
+| [Placeholder] Metric | Before | After |
+| --- | --- | --- |
+| Example row | — | — |
+| Example row | — | — |
+
+## Wrapping up
+
+[Placeholder] Summarise the key takeaways and link to the [AI Agents & Automation service](/services/ai-agents-automation).

@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "senior-full-stack-engineer",
+    "title": "[Placeholder] Senior Full-Stack Engineer",
+    "department": "Engineering",
+    "location": "[Placeholder] Remote",
+    "type": "full-time",
+    "summary": "[Placeholder] Build web platforms and internal tools for clients and for our own products, end to end.",
+    "responsibilities": [
+      "[Placeholder] Design and build features across the stack (Next.js, TypeScript, Postgres).",
+      "[Placeholder] Work directly with clients to shape scope and trade-offs.",
+      "[Placeholder] Review code and help raise the bar on quality and testing."
+    ],
+    "requirements": [
+      "[Placeholder] Several years building production web applications.",
+      "[Placeholder] Strong TypeScript and SQL.",
+      "[Placeholder] Clear written communication."
+    ],
+    "niceToHave": ["[Placeholder] Experience shipping LLM-powered features."],
+    "applyUrl": "mailto:hello@amitrixlabs.com?subject=Senior%20Full-Stack%20Engineer",
+    "posted": "2026-11-01",
+    "open": true,
+    "order": 1
+  },
+  {
+    "slug": "ai-engineer",
+    "title": "[Placeholder] AI Engineer (LLM applications)",
+    "department": "AI",
+    "location": "[Placeholder] Remote",
+    "type": "contract",
+    "summary": "[Placeholder] Design, evaluate and ship AI agents and automations for clients across industries.",
+    "responsibilities": [
+      "[Placeholder] Build agents with tool use, retrieval and human-in-the-loop flows.",
+      "[Placeholder] Create evaluation suites and monitor quality in production.",
+      "[Placeholder] Advise clients on model choice, cost and data privacy."
+    ],
+    "requirements": [
+      "[Placeholder] Hands-on experience shipping LLM applications.",
+      "[Placeholder] Strong Python or TypeScript."
+    ],
+    "niceToHave": [],
+    "applyUrl": "mailto:hello@amitrixlabs.com?subject=AI%20Engineer",
+    "posted": "2026-11-01",
+    "open": true,
+    "order": 2
+  }
+]

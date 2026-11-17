@@ -1,20 +1,33 @@
-import Link from "next/link";
-import { LatticeLockup } from "@/components/brand/logos";
+import { Hero } from "@/components/sections/home/hero";
+import { TrustRow } from "@/components/sections/home/trust-row";
+import { ServicesBento } from "@/components/sections/home/services-bento";
+import { MetricsBand } from "@/components/sections/home/metrics-band";
+import { WhyAmitrix } from "@/components/sections/home/why-amitrix";
+import { ProductsShowcase } from "@/components/sections/home/products-showcase";
+import { FeaturedWork } from "@/components/sections/home/featured-work";
+import { HowWeWork } from "@/components/sections/home/how-we-work";
+import { TechStack } from "@/components/sections/home/tech-stack";
+import { Testimonials } from "@/components/sections/home/testimonials";
+import { FinalCta } from "@/components/sections/home/final-cta";
 
-// Temporary placeholder — the real homepage is built in Phases 5–7.
+// Homepage composition (owned by the orchestrator). Order and themes follow
+// the plan's homepage table. Each section lives in its own file and is built
+// by its phase: 5 = Hero; 6 = TrustRow..WhyAmitrix; 7 = ProductsShowcase..FinalCta.
+// The Footer (section 12) is part of the site shell (Phase 4).
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-8 px-6 py-24 text-center">
-      <LatticeLockup className="h-10 w-auto" />
-      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-        Amitrix Labs — coming soon
-      </h1>
-      <Link
-        href="/brand"
-        className="font-mono text-xs tracking-[0.14em] text-muted-foreground uppercase underline-offset-4 hover:text-foreground hover:underline focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
-      >
-        {"// View brand starter →"}
-      </Link>
-    </main>
+    <>
+      <Hero />
+      <TrustRow />
+      <ServicesBento />
+      <MetricsBand />
+      <WhyAmitrix />
+      <ProductsShowcase />
+      <FeaturedWork />
+      <HowWeWork />
+      <TechStack />
+      <Testimonials />
+      <FinalCta />
+    </>
   );
 }

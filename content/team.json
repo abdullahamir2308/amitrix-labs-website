@@ -1,0 +1,30 @@
+[
+  {
+    "id": "founder",
+    "name": "[Placeholder] Founder Name",
+    "role": "Founder & CEO",
+    "bio": "[Placeholder] One or two sentences about this person's background and what they focus on at Amitrix Labs.",
+    "avatar": "/placeholders/team/founder.svg",
+    "linkedin": "https://www.linkedin.com/",
+    "order": 1
+  },
+  {
+    "id": "engineering-lead",
+    "name": "[Placeholder] Engineering Lead",
+    "role": "Head of Engineering",
+    "bio": "[Placeholder] One or two sentences about this person's background and what they focus on at Amitrix Labs.",
+    "avatar": "/placeholders/team/engineering-lead.svg",
+    "linkedin": "https://www.linkedin.com/",
+    "github": "https://github.com/",
+    "order": 2
+  },
+  {
+    "id": "design-lead",
+    "name": "[Placeholder] Design Lead",
+    "role": "Head of Product Design",
+    "bio": "[Placeholder] One or two sentences about this person's background and what they focus on at Amitrix Labs.",
+    "avatar": "/placeholders/team/design-lead.svg",
+    "linkedin": "https://www.linkedin.com/",
+    "order": 3
+  }
+]

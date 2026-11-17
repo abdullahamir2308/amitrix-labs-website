@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "brand:assets": "node scripts/brand-assets.mjs"
+    "brand:assets": "node scripts/brand-assets.mjs",
+    "content:build": "velite build --clean --strict",
+    "content:watch": "velite dev",
+    "content:placeholders": "node scripts/generate-placeholders.mjs",
+    "typecheck": "velite build && tsc --noEmit"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",

@@ -62,12 +62,12 @@ Update this list at the end of every phase (one line each: what was done + any d
 
 - [x] Phase 1 — CLAUDE.md brief written.
 - [x] Phase 2 — Brand starter: Next.js 16 + Tailwind v4 + shadcn/ui (base-nova, neutral) scaffolded; hidden /brand page with 4 logo concepts, 3 palettes, type and component samples; default choice applied (concept #1 Lattice A, palette Lab) with logo SVGs, favicons and Lab tokens.
-- [ ] Phase 3 — Design system + motion foundation (/playground)
+- [x] Phase 3 — Design system + motion foundation: Tailwind v4 tokens (light/dark + .section-dark, fluid clamp type scale, glow shadows, section/gutter spacing), next-themes toggle, Providers (GSAP plugins, Lenis+ScrollTrigger, MotionConfig, Tooltip), 8 motion primitives with reduced-motion fallbacks, Button/Badge/Card/Section/Container/Eyebrow, /playground (noindex). Decision: use cn from @/lib/cn (knows custom type tokens); import gsap from @/lib/gsap (plugins registered there).
 - [ ] Phase 4 — Site shell (header, footer, transitions, placeholder routes)
 - [ ] Phase 5 — Homepage hero (3D lattice)
 - [ ] Phase 6 — Homepage sections A (light)
 - [ ] Phase 7 — Homepage sections B (dark + story)
-- [ ] Phase 8 — Content system (Velite)
+- [x] Phase 8 — Content system (done early, in Wave 1): Velite started from next.config (dev watch / strict build), 8 typed collections, placeholder content + SVGs, src/lib/{content,mdx,site}.ts, content/README.md; images via s.image(absoluteRoot "public"). Pages import only from @/lib/content, @/lib/mdx, @/lib/site.
 - [ ] Phase 9 — Products, Services, Work pages
 - [ ] Phase 10 — About, Insights, Careers, Contact, legal
 - [ ] Phase 11 — SEO, performance, accessibility pass

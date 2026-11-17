@@ -1,0 +1,32 @@
+[
+  {
+    "id": "testimonial-01",
+    "quote": "[Placeholder] A short quote from a real client about working with Amitrix Labs goes here. Only publish quotes you have written permission to use.",
+    "name": "[Placeholder] Client Name",
+    "role": "[Placeholder] Head of Operations",
+    "company": "[Placeholder] Logistics client",
+    "avatar": "/placeholders/testimonials/testimonial-01.svg",
+    "workSlug": "logistics-dispatch-agent",
+    "order": 1
+  },
+  {
+    "id": "testimonial-02",
+    "quote": "[Placeholder] A second client quote. Keep it to two or three sentences and focus on the outcome, not just the experience.",
+    "name": "[Placeholder] Client Name",
+    "role": "[Placeholder] Product Director",
+    "company": "[Placeholder] Healthcare client",
+    "avatar": "/placeholders/testimonials/testimonial-02.svg",
+    "workSlug": "healthcare-intake-platform",
+    "order": 2
+  },
+  {
+    "id": "testimonial-03",
+    "quote": "[Placeholder] A third client quote. Real names, roles and companies make testimonials credible — replace all three fields.",
+    "name": "[Placeholder] Client Name",
+    "role": "[Placeholder] CTO",
+    "company": "[Placeholder] Financial services client",
+    "avatar": "/placeholders/testimonials/testimonial-03.svg",
+    "workSlug": "fintech-mobile-app",
+    "order": 3
+  }
+]

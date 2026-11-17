@@ -1,0 +1,47 @@
+---
+# [Placeholder] post — sample article to test the blog layout. Rewrite or delete before launch.
+title: "[Placeholder] Deep-dive: designing guardrails for a dispatch agent"
+slug: case-study-deep-dive-dispatch-agent
+date: 2026-07-21
+author: engineering-lead
+tags:
+  - Case study
+  - AI agents
+cover: /placeholders/posts/case-study-deep-dive-dispatch-agent.svg
+excerpt: "[Placeholder] A technical look at the guardrails, evaluations and fallbacks behind a (fictional) logistics dispatch agent."
+featured: false
+---
+
+[Placeholder] This is a sample article used to test the blog layout. The project it describes is the fictional [placeholder case study](/work/logistics-dispatch-agent).
+
+## The constraints
+
+[Placeholder] What the agent was allowed to do, and what it was never allowed to do.
+
+## Guardrails as code
+
+[Placeholder] Each rule is a small, testable function:
+
+```python title="guardrails.py"
+from dataclasses import dataclass
+
+
+@dataclass
+class Decision:
+    action: str
+    confidence: float
+
+
+def needs_human(decision: Decision, threshold: float = 0.85) -> bool:
+    """Escalate low-confidence or high-impact decisions to a person."""
+    high_impact = decision.action in {"cancel_order", "issue_refund"}
+    return high_impact or decision.confidence < threshold
+```
+
+### Fallbacks
+
+[Placeholder] What happens when a model times out, a tool fails or confidence is low.
+
+## Results
+
+[Placeholder] Link back to the case study for the outcomes.

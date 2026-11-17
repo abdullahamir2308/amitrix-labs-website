@@ -1,0 +1,58 @@
+[
+  {
+    "id": "client-01",
+    "name": "[Placeholder] Client 01",
+    "logo": "/placeholders/clients/client-01.svg",
+    "industry": "Logistics",
+    "order": 1
+  },
+  {
+    "id": "client-02",
+    "name": "[Placeholder] Client 02",
+    "logo": "/placeholders/clients/client-02.svg",
+    "industry": "Healthcare",
+    "order": 2
+  },
+  {
+    "id": "client-03",
+    "name": "[Placeholder] Client 03",
+    "logo": "/placeholders/clients/client-03.svg",
+    "industry": "Financial services",
+    "order": 3
+  },
+  {
+    "id": "client-04",
+    "name": "[Placeholder] Client 04",
+    "logo": "/placeholders/clients/client-04.svg",
+    "industry": "Retail",
+    "order": 4
+  },
+  {
+    "id": "client-05",
+    "name": "[Placeholder] Client 05",
+    "logo": "/placeholders/clients/client-05.svg",
+    "industry": "Education",
+    "order": 5
+  },
+  {
+    "id": "client-06",
+    "name": "[Placeholder] Client 06",
+    "logo": "/placeholders/clients/client-06.svg",
+    "industry": "Manufacturing",
+    "order": 6
+  },
+  {
+    "id": "client-07",
+    "name": "[Placeholder] Client 07",
+    "logo": "/placeholders/clients/client-07.svg",
+    "industry": "Real estate",
+    "order": 7
+  },
+  {
+    "id": "client-08",
+    "name": "[Placeholder] Client 08",
+    "logo": "/placeholders/clients/client-08.svg",
+    "industry": "Media",
+    "order": 8
+  }
+]
