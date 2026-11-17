@@ -42,3 +42,9 @@ next-env.d.ts
 
 # local browser-automation artefacts
 /.playwright-mcp/
+
+# allow the env template
+!.env.example
+
+# velite output
+/.velite/

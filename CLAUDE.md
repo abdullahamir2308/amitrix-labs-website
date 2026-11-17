@@ -72,3 +72,12 @@ Update this list at the end of every phase (one line each: what was done + any d
 - [ ] Phase 10 — About, Insights, Careers, Contact, legal
 - [ ] Phase 11 — SEO, performance, accessibility pass
 - [ ] Phase 12 — Launch (needs the owner: GitHub, Vercel, DNS)
+
+## Parallel work rules (multi-agent build)
+Several agents work in this repo at the same time. Each agent is given a list of files/folders it OWNS.
+- Only create or edit files you own. If you need a change in a file you don't own, don't make it: put it under "Requests for other owners" in your final report.
+- Do NOT run `npm install` / `npx shadcn add` / anything that changes package.json or node_modules. All packages are pre-installed (motion, gsap, @gsap/react, lenis, three, @react-three/fiber, @react-three/drei, velite, zod, resend, @react-email/components, @calcom/embed-react, @vercel/analytics, @vercel/speed-insights, next-themes, rehype-pretty-code, shiki, rehype-slug, schema-dts, shadcn ui components in src/components/ui). If something is truly missing, report it.
+- Do NOT run `next build`, `npm run build`, or start another `next dev`. A shared dev server runs at http://localhost:3100 (port 3000 is taken by Docker). Test against it with curl / Playwright. If it is down (no response for 30s+), restart it once with `npx next dev -p 3100` in the background.
+- Check your work with `npx tsc --noEmit` and `npx eslint <your files>`. Fix errors in YOUR files only; ignore errors in files other agents are still writing.
+- Do NOT run git commands that change state (add/commit/checkout/stash/reset). The orchestrator commits after each wave.
+- Do not edit CLAUDE.md except where your task says so; report CLAUDE.md updates in your final report instead.
