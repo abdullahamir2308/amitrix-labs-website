@@ -19,6 +19,14 @@ This is the brief for every session that works on this repo. Read it first. The 
 - Feel: tech, precise, premium, high-end motion. Fine grid background, subtle grain, mono eyebrow labels like "// 01 — SERVICES".
 - Quality bar: linear.app, vercel.com, stripe.com.
 
+## Brand
+- Chosen (default, applied in Phase 2 while the owner was unavailable): logo concept #1 "Lattice A" + palette "Lab (default)". Review all options at /brand (hidden page, noindex).
+- Logo files: public/brand/amitrix-{mark,wordmark,lockup}-{light,dark}.svg. "-light" = for light backgrounds (ink artwork), "-dark" = for dark backgrounds (paper artwork). Wordmarks are outlined Geist paths (no font dependency).
+- Icons: src/app/icon.svg (follows prefers-color-scheme), src/app/favicon.ico (16/32/48/64, mark on ink tile), src/app/apple-icon.png (180x180, mark on ink).
+- In code: `LatticeMark`, `LatticeWordmark`, `LatticeLockup` from src/components/brand/logos.tsx (currentColor-based). Mark geometry lives in src/components/brand/lattice-mark.json; palettes in src/components/brand/tokens.ts; colour tokens in src/app/globals.css.
+- Regenerate exported SVGs/icons and wordmark outlines with `npm run brand:assets` (scripts/brand-assets.mjs).
+- To swap, the owner says: "I pick logo concept #n and palette X" (concepts: 1 Lattice A, 2 Grid A, 3 Hex network, 4 Mono AL; palettes: Lab (default), Warm, Electric). Then update the script, public/brand files, icons, globals.css tokens and this section.
+
 ## Motion rules
 - One hero moment per page; scroll-driven storytelling; 200–600ms, spring/expo easing.
 - Libraries: Motion (UI), GSAP + ScrollTrigger + SplitText + DrawSVG (scroll), Lenis (smooth scroll), React Three Fiber (3D hero).
@@ -40,6 +48,10 @@ Home, Products (index + [slug]), Services (index + [slug]), Work (index + [slug]
 - Performance budget: Lighthouse 90+ on mobile, LCP < 2.5s, no layout shift from animations.
 - After each phase: run build + lint, fix errors, and summarise what changed in plain English.
 
+## Next.js notes
+- Next.js 16 with Cache Components + Partial Prefetching enabled (next.config.ts). APIs differ from older versions: read AGENTS.md and the bundled docs in node_modules/next/dist/docs/ before writing Next-specific code.
+- Fonts come from the `geist` package (next/font/local, self-hosted), not Google Fonts.
+
 ## Environment notes
 - Windows 11, Node 24, npm 11, Git 2.53. Shell: PowerShell (Git Bash also available).
 - Use npm (not pnpm/yarn).
@@ -49,7 +61,7 @@ Home, Products (index + [slug]), Services (index + [slug]), Work (index + [slug]
 Update this list at the end of every phase (one line each: what was done + any decision taken).
 
 - [x] Phase 1 — CLAUDE.md brief written.
-- [ ] Phase 2 — Brand starter (/brand page, logo concepts, palettes)
+- [x] Phase 2 — Brand starter: Next.js 16 + Tailwind v4 + shadcn/ui (base-nova, neutral) scaffolded; hidden /brand page with 4 logo concepts, 3 palettes, type and component samples; default choice applied (concept #1 Lattice A, palette Lab) with logo SVGs, favicons and Lab tokens.
 - [ ] Phase 3 — Design system + motion foundation (/playground)
 - [ ] Phase 4 — Site shell (header, footer, transitions, placeholder routes)
 - [ ] Phase 5 — Homepage hero (3D lattice)

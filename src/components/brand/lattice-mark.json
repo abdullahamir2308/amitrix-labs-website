@@ -1,0 +1,24 @@
+{
+  "$comment": "Concept 01 (lattice A) geometry on a 32x32 grid. Single source of truth for the React mark and scripts/brand-assets.mjs (exported SVGs, favicons).",
+  "size": 32,
+  "strokeWidth": 2.25,
+  "nodeRadius": 2.75,
+  "faintOpacity": 0.38,
+  "nodes": [
+    { "id": "apex", "x": 16, "y": 5.5, "tone": "indigo" },
+    { "id": "midL", "x": 10, "y": 16, "tone": "fg" },
+    { "id": "midR", "x": 22, "y": 16, "tone": "fg" },
+    { "id": "baseL", "x": 4, "y": 26.5, "tone": "fg" },
+    { "id": "baseM", "x": 16, "y": 26.5, "tone": "cyan" },
+    { "id": "baseR", "x": 28, "y": 26.5, "tone": "fg" }
+  ],
+  "edges": [
+    { "from": "midL", "to": "baseM", "tone": "faint" },
+    { "from": "midR", "to": "baseM", "tone": "faint" },
+    { "from": "apex", "to": "midL", "tone": "fg" },
+    { "from": "midL", "to": "baseL", "tone": "fg" },
+    { "from": "apex", "to": "midR", "tone": "fg" },
+    { "from": "midR", "to": "baseR", "tone": "fg" },
+    { "from": "midL", "to": "midR", "tone": "fg" }
+  ]
+}

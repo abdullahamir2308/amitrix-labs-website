@@ -1,0 +1,143 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-geist-sans);
+  --color-paper: var(--brand-paper);
+  --color-ink: var(--brand-ink);
+  --color-brand-indigo: var(--brand-indigo);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-slate: var(--brand-slate);
+  --color-line: var(--border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+ * Brand palette: "Lab (default)" — see CLAUDE.md > Brand. Mapped onto shadcn/ui tokens.
+ * Paper #FAFAF9, Ink #0A0A12, Indigo #5B4CF5, Cyan #22D3EE, Slate #64748B,
+ * Line #E5E7EB (light) / #1F2030 (dark). Full token system arrives in Phase 3.
+ */
+:root {
+  --brand-paper: #fafaf9;
+  --brand-ink: #0a0a12;
+  --brand-indigo: #5b4cf5;
+  --brand-cyan: #22d3ee;
+  --brand-slate: #64748b;
+
+  --background: var(--brand-paper);
+  --foreground: var(--brand-ink);
+  --card: #ffffff;
+  --card-foreground: var(--brand-ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--brand-ink);
+  --primary: var(--brand-indigo);
+  --primary-foreground: #ffffff;
+  --secondary: #f0f0ee;
+  --secondary-foreground: var(--brand-ink);
+  --muted: #f0f0ee;
+  --muted-foreground: var(--brand-slate);
+  --accent: #f0f0ee;
+  --accent-foreground: var(--brand-ink);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: var(--brand-indigo);
+  --chart-1: var(--brand-indigo);
+  --chart-2: var(--brand-cyan);
+  --chart-3: var(--brand-slate);
+  --chart-4: #8c7cff;
+  --chart-5: #0e7490;
+  --radius: 0.625rem;
+  --sidebar: var(--brand-paper);
+  --sidebar-foreground: var(--brand-ink);
+  --sidebar-primary: var(--brand-indigo);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f0f0ee;
+  --sidebar-accent-foreground: var(--brand-ink);
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: var(--brand-indigo);
+}
+
+.dark {
+  --background: var(--brand-ink);
+  --foreground: var(--brand-paper);
+  --card: #12121c;
+  --card-foreground: var(--brand-paper);
+  --popover: #12121c;
+  --popover-foreground: var(--brand-paper);
+  --primary: var(--brand-indigo);
+  --primary-foreground: #ffffff;
+  --secondary: #1a1a28;
+  --secondary-foreground: var(--brand-paper);
+  --muted: #1a1a28;
+  /* Slate #64748B is 4.1:1 on ink, so muted text uses a lighter slate for WCAG AA. */
+  --muted-foreground: #94a3b8;
+  --accent: #1a1a28;
+  --accent-foreground: var(--brand-paper);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #1f2030;
+  --input: #2a2b3d;
+  --ring: #8c7cff;
+  --sidebar: #12121c;
+  --sidebar-foreground: var(--brand-paper);
+  --sidebar-primary: var(--brand-indigo);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1a1a28;
+  --sidebar-accent-foreground: var(--brand-paper);
+  --sidebar-border: #1f2030;
+  --sidebar-ring: #8c7cff;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
