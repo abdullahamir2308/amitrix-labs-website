@@ -2,7 +2,9 @@ import type { NextConfig } from "next";
 import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } from "next/constants";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // NEXT_DIST_DIR lets a second production build (e.g. a Lighthouse run) live
+  // beside the dev server's output without clobbering it. Defaults to .next.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {

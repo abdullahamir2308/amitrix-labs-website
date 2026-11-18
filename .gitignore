@@ -54,3 +54,6 @@ next-env.d.ts
 
 # velite asset output
 /public/content/
+
+# extra build output dirs (Lighthouse/perf builds)
+/.next-*/
