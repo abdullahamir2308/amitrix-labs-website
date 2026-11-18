@@ -3,6 +3,8 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { Providers } from "@/components/providers";
 import { CustomCursor } from "@/components/motion/custom-cursor";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Footer } from "@/components/layout/footer";
 import { RouteProgress } from "@/components/layout/route-progress";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -77,6 +79,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <CustomCursor />
         </Providers>
         <div aria-hidden="true" className="grain" />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
