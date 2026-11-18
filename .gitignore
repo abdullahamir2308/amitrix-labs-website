@@ -57,3 +57,6 @@ next-env.d.ts
 
 # extra build output dirs (Lighthouse/perf builds)
 /.next-*/
+
+# private planning doc (kept local, never pushed)
+/Amitrix Labs Website — Plan & Claude Code Prompt Pack.md
