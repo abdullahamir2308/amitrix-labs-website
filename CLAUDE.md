@@ -56,7 +56,8 @@ Home, Products (index + [slug]), Services (index + [slug]), Work (index + [slug]
 ## Environment notes
 - Windows 11, Node 24, npm 11, Git 2.53. Shell: PowerShell (Git Bash also available).
 - Use npm (not pnpm/yarn).
-- Commit to git after each phase with a clear message (local commits only; pushing happens in Phase 12).
+- Commit to git after each phase with a clear message, then `git push` (GitHub: abdullahamir2308/amitrix-labs-website, public). Pushing to main deploys to production on Vercel.
+- The plan doc (`Amitrix Labs Website — Plan & Claude Code Prompt Pack.md`) is private: gitignored, never commit it.
 
 ## Build progress
 Update this list at the end of every phase (one line each: what was done + any decision taken).
@@ -72,7 +73,7 @@ Update this list at the end of every phase (one line each: what was done + any d
 - [x] Phase 9 — Products/Services/Work: index pages + [slug] pages (launch page with tilt frame/features/gallery; service page problem→deliver→process→stack→related→FAQ + FAQPage JSON-LD; case study with sidebar/Counter results/testimonial/next). /work filters in URL params. Slug pages await params at top with instant=false.
 - [x] Phase 10 — About (DrawSVG timeline, team grid), Insights (featured, URL tag/search, article with TOC/progress/code styling/share/related), Careers (expandable roles + empty state), Contact (zod → /api/contact Route Handler, Resend + React Email, honeypot + in-memory rate limit, dev/503 fallbacks, Cal.com embed or placeholder card), placeholder Privacy/Terms, custom 404.
 - [x] Phase 11 — Quality pass. SEO: createMetadata on every page, brand OG images (next/og), sitemap/robots, JSON-LD (Organization, WebSite, Service, SoftwareApplication, BlogPosting, FAQPage, BreadcrumbList), breadcrumbs, cross-links, src/proxy.ts slug allowlist (real 404s), page copy moved to site.pages. Perf/a11y: removed per-frame full-page restyles, deferred lattice, smaller shared JS (precompiled cn tables, per-component GSAP plugins, lazy Lenis/zod, direct motion imports — never import the @/components/motion barrel outside /playground), WCAG AA fixes. Lighthouse mobile: Home 98/100/100/100, service 99/100/100/100, article 99/100/100/100, case study 83/100/100/100.
-- [ ] Phase 12 — Launch (needs the owner: GitHub, Vercel, DNS)
+- [~] Phase 12 — Launch, partly done: public GitHub repo abdullahamir2308/amitrix-labs-website (plan doc kept local, gitignored), Vercel project amitrix-labs-website linked to the repo (pushes to main auto-deploy), live at https://amitrix-labs-website.vercel.app, Analytics + Speed Insights components added. LEFT FOR THE OWNER (see LAUNCH.md): enable Analytics/Speed Insights in the dashboard, Resend + Cal.com env vars, connect amitrixlabs.com (Hostinger DNS), pre-launch checklist.
 
 ## Parallel work rules (multi-agent build)
 Several agents work in this repo at the same time. Each agent is given a list of files/folders it OWNS.

@@ -60,3 +60,6 @@ next-env.d.ts
 
 # private planning doc (kept local, never pushed)
 /Amitrix Labs Website — Plan & Claude Code Prompt Pack.md
+
+.vercel
+.env*
