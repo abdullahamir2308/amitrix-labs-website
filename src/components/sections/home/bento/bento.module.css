@@ -1,0 +1,771 @@
+/*
+ * Services bento micro-animations. Each visual is built from thin UI
+ * fragments in theme tokens; exactly ONE accent element loops per tile.
+ * The resting (non-animated) styles are the "finished" frame, which is what
+ * reduced-motion users see. <VisualFrame> sets [data-active] while the tile
+ * is on screen; without it every animation is paused.
+ */
+
+.visual:not([data-active]) * {
+  animation-play-state: paused !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .visual * {
+    animation: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------- shared */
+
+.panel {
+  position: relative;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--surface-raised);
+  box-shadow:
+    0 1px 0 var(--shadow-color),
+    0 18px 40px -24px var(--shadow-color-strong);
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 28px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--line);
+}
+.lights {
+  display: flex;
+  gap: 4px;
+}
+.lights i {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+}
+
+.bar {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--line-strong);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--muted-foreground);
+}
+
+/* ------------------------------------------------------- AI agents (chat) */
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(100%, 360px);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.userMsg {
+  align-self: flex-end;
+  max-width: 82%;
+  padding: 8px 12px;
+  border-radius: 12px 12px 4px 12px;
+  background: var(--foreground);
+  color: var(--background);
+}
+.agentRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.avatar {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-raised);
+  color: var(--foreground);
+}
+.agentMsg {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: 4px 12px 12px 12px;
+}
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  white-space: nowrap;
+}
+.step code {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--foreground);
+}
+.step .mono {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.check {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  color: var(--success);
+}
+.thinking {
+  color: var(--muted-foreground);
+}
+.dots {
+  display: inline-flex;
+  flex-shrink: 0;
+  justify-content: center;
+  gap: 2px;
+  width: 14px;
+}
+.dots i {
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--signal);
+  animation: dot 1.2s ease-in-out infinite;
+}
+.dots i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.dots i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+.approve {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px dashed var(--line-strong);
+}
+.pills {
+  display: flex;
+  gap: 4px;
+}
+.pill {
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--line-strong);
+  font-size: 10.5px;
+  color: var(--muted-foreground);
+}
+.pillPrimary {
+  border-color: transparent;
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* -------------------------------------------------- Custom software (code) */
+
+.editor {
+  width: min(100%, 340px);
+  overflow: hidden;
+}
+.code {
+  padding: 10px 0 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.75;
+  color: var(--muted-foreground);
+  white-space: pre;
+}
+.line {
+  display: flex;
+}
+.ln {
+  width: 30px;
+  flex-shrink: 0;
+  padding-right: 12px;
+  text-align: right;
+  color: var(--line-strong);
+  user-select: none;
+}
+.kw {
+  color: var(--highlight);
+}
+.str {
+  color: var(--signal);
+}
+.fn {
+  color: var(--foreground);
+}
+.typed {
+  display: inline-block;
+  vertical-align: bottom;
+  width: 31ch;
+  overflow: hidden;
+  border-right: 1.5px solid var(--highlight);
+  animation:
+    typing 6.5s steps(31, end) infinite,
+    caret 1s step-end infinite;
+}
+@keyframes typing {
+  0%,
+  8% {
+    width: 0;
+  }
+  55%,
+  100% {
+    width: 31ch;
+  }
+}
+@keyframes caret {
+  50% {
+    border-right-color: transparent;
+  }
+}
+
+/* --------------------------------------------- Web & SaaS (browser + chart) */
+
+.browser {
+  width: min(100%, 360px);
+  overflow: hidden;
+}
+.url {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 16px;
+  max-width: 180px;
+  margin: 0 auto;
+  border-radius: 5px;
+  background: var(--muted);
+}
+.dash {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+}
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 12px 10px;
+  border-right: 1px solid var(--line);
+}
+.side .bar {
+  height: 5px;
+}
+.sideLogo {
+  width: 14px;
+  height: 14px;
+  margin-bottom: 4px;
+  border-radius: 4px;
+  background: var(--foreground);
+}
+.sideActive {
+  background: var(--highlight) !important;
+  opacity: 0.7;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 7px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+.kpi .bar:first-child {
+  width: 60%;
+  height: 4px;
+}
+.kpiValue {
+  width: 80%;
+  height: 8px !important;
+  background: var(--foreground) !important;
+  opacity: 0.8;
+}
+.chartBox {
+  padding: 8px 8px 4px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+.chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.grid {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.chartLine {
+  fill: none;
+  stroke: var(--highlight);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  animation: draw 5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes draw {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  88% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------ Mobile (phone + swipe) */
+
+.phone {
+  position: relative;
+  width: 172px;
+  padding: 10px 10px 0;
+  border: 1px solid var(--line-strong);
+  border-bottom: 0;
+  border-radius: 28px 28px 0 0;
+  background: var(--surface-raised);
+  box-shadow:
+    0 1px 0 var(--shadow-color),
+    0 18px 40px -24px var(--shadow-color-strong);
+}
+.screen {
+  overflow: hidden;
+  padding: 8px 10px 0;
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 20px 20px 0 0;
+  min-height: 210px;
+}
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  color: var(--foreground);
+}
+.island {
+  width: 40px;
+  height: 11px;
+  border-radius: 999px;
+  background: var(--foreground);
+}
+.appHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.appHead .bar {
+  width: 56px;
+  height: 7px;
+  background: var(--foreground);
+  opacity: 0.8;
+}
+.avatarDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+}
+.carousel {
+  overflow: hidden;
+  margin: 0 -10px 12px;
+  padding: 0 10px;
+}
+.strip {
+  display: flex;
+  gap: 8px;
+  animation: swipe 7s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+.card {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 5px;
+  width: 128px;
+  height: 74px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--muted);
+}
+.card .bar:first-child {
+  width: 70%;
+}
+.card .bar:last-child {
+  width: 45%;
+  height: 4px;
+}
+.cardAccent {
+  border-color: transparent;
+  background: var(--primary);
+}
+.cardAccent .bar {
+  background: rgb(255 255 255 / 0.55);
+}
+@keyframes swipe {
+  0%,
+  22% {
+    transform: translateX(0);
+  }
+  32%,
+  56% {
+    transform: translateX(-136px);
+  }
+  66%,
+  90% {
+    transform: translateX(-272px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.row i {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: var(--muted);
+  border: 1px solid var(--line);
+}
+.row span {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+.row .bar:last-child {
+  width: 55%;
+  height: 4px;
+}
+
+/* ------------------------------------- Product design (components + cursor) */
+
+.board {
+  position: relative;
+  width: 330px;
+  height: 196px;
+  flex-shrink: 0;
+}
+.frame {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.frameBody {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface-raised);
+}
+.frameSelected .frameBody {
+  border: 1px solid var(--highlight);
+}
+.handle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--highlight);
+  background: var(--surface-raised);
+}
+.btnSample {
+  padding: 5px 12px;
+  border-radius: 7px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 11px;
+  font-weight: 500;
+}
+.btnGhost {
+  padding: 4px 11px;
+  border-radius: 7px;
+  border: 1px solid var(--line-strong);
+  font-size: 11px;
+  color: var(--foreground);
+}
+.input {
+  display: flex;
+  align-items: center;
+  width: 82%;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid var(--line-strong);
+  font-size: 10.5px;
+  color: var(--muted-foreground);
+}
+.toggle {
+  position: relative;
+  width: 26px;
+  height: 15px;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+.toggle::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+  background: var(--surface-raised);
+}
+.toggleOn {
+  background: var(--primary);
+}
+.toggleOn::after {
+  left: 13px;
+}
+.swatches {
+  display: flex;
+  gap: 5px;
+}
+.swatches i {
+  width: 16px;
+  height: 16px;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+}
+.cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  pointer-events: none;
+  transform: translate(206px, 74px);
+  animation: cursor 8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+.cursor svg {
+  width: 14px;
+  height: 14px;
+  color: var(--highlight);
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.15));
+}
+.cursorTag {
+  margin: 11px 0 0 -2px;
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: var(--highlight);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+@keyframes cursor {
+  0%,
+  10% {
+    transform: translate(64px, 150px);
+  }
+  30%,
+  48% {
+    transform: translate(206px, 74px);
+  }
+  66%,
+  78% {
+    transform: translate(250px, 160px);
+  }
+  92%,
+  100% {
+    transform: translate(64px, 150px);
+  }
+}
+
+/* ------------------------------------------- Cloud & DevOps (pipeline) */
+
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: min(100%, 560px);
+  padding: 16px 16px 14px;
+}
+.pipeHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.track {
+  position: relative;
+}
+.rail {
+  position: absolute;
+  top: 9px;
+  left: 10%;
+  right: 10%;
+  height: 9px;
+  overflow: hidden;
+}
+.rail::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--line-strong);
+}
+.comet {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 55%, var(--signal)) center / 100% 1px no-repeat;
+  transform: translateX(0);
+  animation: comet 4.5s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+}
+.comet::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  right: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--signal);
+  box-shadow: 0 0 10px var(--signal);
+}
+@keyframes comet {
+  0% {
+    transform: translateX(-100%);
+    opacity: 1;
+  }
+  72% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  90%,
+  100% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+}
+.stages {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-raised);
+  color: var(--muted-foreground);
+}
+.node svg {
+  width: 12px;
+  height: 12px;
+}
+.nodeLive {
+  border-color: color-mix(in srgb, var(--success) 45%, transparent);
+  color: var(--success);
+}
+.live {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--success);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--success) 22%, transparent);
+}
+.regions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line-strong);
+}
+.region {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.region i {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--success);
+}

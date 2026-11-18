@@ -14,7 +14,7 @@
  * variant matches inside those sections too.
  */
 
-@custom-variant dark (&:is(.dark *, .section-dark, .section-dark *, [data-theme-section="dark"], [data-theme-section="dark"] *));
+@custom-variant dark (&:is(.dark *, .section-dark, .section-dark *, [data-theme-section="dark"], [data-theme-section="dark"] *, .tone-dark, .tone-dark *, [data-header-tone="dark"], [data-header-tone="dark"] *));
 
 /* ------------------------------------------------------------------------ */
 /* Tokens that reference runtime CSS variables                               */
@@ -200,6 +200,9 @@
 
   --radius: 0.625rem;
 
+  /* Fixed site header height (Phase 4). Pages that don't use <PageHeader> pad by this. */
+  --header-h: 4rem;
+
   /* Light (paper) */
   --background: var(--brand-paper);
   --foreground: var(--brand-ink);
@@ -253,7 +256,10 @@
 /* Dark (ink): site-wide dark mode AND forced-dark sections share one block. */
 .dark,
 .section-dark,
-[data-theme-section="dark"] {
+[data-theme-section="dark"],
+.tone-dark,
+[data-header-tone="dark"],
+body:has([data-page] > :is(.section-dark, [data-theme-section="dark"]):first-child) [data-header-tone="auto"] {
   --background: var(--brand-ink);
   --foreground: var(--brand-paper);
   --surface: #11111b;
@@ -301,6 +307,19 @@
   color-scheme: dark;
 }
 
+/*
+ * .tone-dark: ink palette (tokens + colour) WITHOUT painting a background — for overlays
+ * like the site header that sit on top of dark sections. The header sets
+ * data-header-tone="dark|light" from what is under it; "auto" (before JS) is dark when
+ * the page starts with a dark section.
+ */
+.tone-dark,
+[data-header-tone="dark"],
+body:has([data-page] > :is(.section-dark, [data-theme-section="dark"]):first-child) [data-header-tone="auto"] {
+  color-scheme: dark;
+  color: var(--foreground);
+}
+
 /* A forced-dark section paints itself, whatever the site theme is. */
 .section-dark,
 [data-theme-section="dark"] {
@@ -337,10 +356,17 @@
   ::selection {
     background-color: rgb(91 76 245 / 0.22);
   }
-  :where(a, summary, [tabindex]):focus-visible {
+  :where(a, button, summary, [role="button"], [tabindex]):focus-visible {
     outline: 2px solid var(--ring);
-    outline-offset: 3px;
+    outline-offset: 2px;
     border-radius: 2px;
+  }
+  /* <main id="main" tabIndex={-1}> receives focus programmatically (skip link, route change). */
+  #main:focus {
+    outline: none;
+  }
+  html {
+    scroll-padding-top: calc(var(--header-h) + 1rem);
   }
   @media (prefers-reduced-motion: no-preference) {
     html:not(.lenis) {
@@ -591,4 +617,47 @@ html.lenis body {
   transition-property: overflow;
   transition-duration: 1ms;
   transition-behavior: allow-discrete;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Page transitions (Phase 4): React <ViewTransition> in app/template.tsx    */
+/* ------------------------------------------------------------------------ */
+::view-transition {
+  pointer-events: none;
+}
+/* The header stays put while pages swap underneath it. */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+::view-transition-old(.page-exit) {
+  animation: 160ms cubic-bezier(0.4, 0, 1, 1) both vt-fade-out;
+}
+::view-transition-new(.page-enter) {
+  animation: 420ms var(--ease-expo-out) 80ms both vt-rise-in;
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
 }

@@ -51,6 +51,7 @@ Home, Products (index + [slug]), Services (index + [slug]), Work (index + [slug]
 ## Next.js notes
 - Next.js 16 with Cache Components + Partial Prefetching enabled (next.config.ts). APIs differ from older versions: read AGENTS.md and the bundled docs in node_modules/next/dist/docs/ before writing Next-specific code.
 - Fonts come from the `geist` package (next/font/local, self-hosted), not Google Fonts.
+- Tailwind runs as a Turbopack loader (next.config.ts `turbopack.rules["*.css"]`). The rule is split so `*.module.css` keeps `as: "*.module.css"`; if you change it, check that CSS Modules still return class names.
 
 ## Environment notes
 - Windows 11, Node 24, npm 11, Git 2.53. Shell: PowerShell (Git Bash also available).
@@ -63,13 +64,13 @@ Update this list at the end of every phase (one line each: what was done + any d
 - [x] Phase 1 — CLAUDE.md brief written.
 - [x] Phase 2 — Brand starter: Next.js 16 + Tailwind v4 + shadcn/ui (base-nova, neutral) scaffolded; hidden /brand page with 4 logo concepts, 3 palettes, type and component samples; default choice applied (concept #1 Lattice A, palette Lab) with logo SVGs, favicons and Lab tokens.
 - [x] Phase 3 — Design system + motion foundation: Tailwind v4 tokens (light/dark + .section-dark, fluid clamp type scale, glow shadows, section/gutter spacing), next-themes toggle, Providers (GSAP plugins, Lenis+ScrollTrigger, MotionConfig, Tooltip), 8 motion primitives with reduced-motion fallbacks, Button/Badge/Card/Section/Container/Eyebrow, /playground (noindex). Decision: use cn from @/lib/cn (knows custom type tokens); import gsap from @/lib/gsap (plugins registered there).
-- [ ] Phase 4 — Site shell (header, footer, transitions, placeholder routes)
-- [ ] Phase 5 — Homepage hero (3D lattice)
-- [ ] Phase 6 — Homepage sections A (light)
-- [ ] Phase 7 — Homepage sections B (dark + story)
+- [x] Phase 4 — Site shell: tone-aware glass header (hides on scroll down; detects .section-dark under the bar), Motion mega menus (Products/Services from content), full-screen mobile menu, ink footer (GSAP AMITRIX wordmark, newsletter UI, socials, Booking open), View Transitions via template.tsx + Motion fallback + progress bar, CustomCursor, skip link, PageHeader. Conventions: layout renders <main id="main">; mark dark sections .section-dark; --header-h token for page offsets.
+- [x] Phase 5 — Homepage hero: R3F shader lattice (cursor ripple, scroll tilt/fade, DPR≤2, pauses off-screen) via next/dynamic after idle; 2D canvas <768px; WebP still (public/hero, scripts/hero-still.mjs) for reduced motion/no-JS; SSR H1 always visible; one GSAP entrance timeline; static SVG LatticeMotif. Code in src/components/sections/hero/.
+- [x] Phase 6 — Homepage sections A: client logo marquee, 6-tile services bento (SpotlightCard + one looping micro-animation each, paused off-screen), metrics band (Counters), Why Amitrix (hover-animated line icons).
+- [x] Phase 7 — Homepage sections B: pinned products showcase, pinned horizontal work rail (scroll-snap carousel on mobile/reduced), DrawSVG process line, typing deploy terminal + tilting tech grid (in-house mono logos), accessible testimonials carousel, shared CtaPanel/FinalCta. Pins only ≥768px with motion; refresh in page order after fonts load.
 - [x] Phase 8 — Content system (done early, in Wave 1): Velite started from next.config (dev watch / strict build), 8 typed collections, placeholder content + SVGs, src/lib/{content,mdx,site}.ts, content/README.md; images via s.image(absoluteRoot "public"). Pages import only from @/lib/content, @/lib/mdx, @/lib/site.
-- [ ] Phase 9 — Products, Services, Work pages
-- [ ] Phase 10 — About, Insights, Careers, Contact, legal
+- [x] Phase 9 — Products/Services/Work: index pages + [slug] pages (launch page with tilt frame/features/gallery; service page problem→deliver→process→stack→related→FAQ + FAQPage JSON-LD; case study with sidebar/Counter results/testimonial/next). /work filters in URL params. Slug pages await params at top with instant=false.
+- [x] Phase 10 — About (DrawSVG timeline, team grid), Insights (featured, URL tag/search, article with TOC/progress/code styling/share/related), Careers (expandable roles + empty state), Contact (zod → /api/contact Route Handler, Resend + React Email, honeypot + in-memory rate limit, dev/503 fallbacks, Cal.com embed or placeholder card), placeholder Privacy/Terms, custom 404.
 - [ ] Phase 11 — SEO, performance, accessibility pass
 - [ ] Phase 12 — Launch (needs the owner: GitHub, Vercel, DNS)
 
@@ -81,3 +82,11 @@ Several agents work in this repo at the same time. Each agent is given a list of
 - Check your work with `npx tsc --noEmit` and `npx eslint <your files>`. Fix errors in YOUR files only; ignore errors in files other agents are still writing.
 - Do NOT run git commands that change state (add/commit/checkout/stash/reset). The orchestrator commits after each wave.
 - Do not edit CLAUDE.md except where your task says so; report CLAUDE.md updates in your final report instead.
+
+## Open follow-ups (from Wave 2 integration — handle in Phase 11 or a polish pass)
+- Unknown slugs under /services, /work, /insights (and /products on first hit) return HTTP 200 with the not-found UI + noindex (soft 404) on the production server, because the PPR shell streams before notFound(). `dynamicParams` is unavailable with Cache Components; consider a `src/proxy.ts` allowlist of known slugs (generated from .velite) that rewrites unknown slugs to a real 404.
+- Counter: add optional `trigger="mount"` so hero stats count without scroll dependence. DecodeText: constrain the scramble overlay width to the word so wide glyphs don't spill.
+- Move draft copy into src/lib/site.ts: the `PAGE` constants in /products, /services, /work index pages; About/Careers/Contact section headings; a `careers.culture` list (careers currently reuses site.why). site.sections.trust eyebrow duplicates its heading ("Trusted by" / "Trusted by teams at").
+- Recheck LCP on /services/[slug] (a dev warning flagged the service image as LCP before PageHeader existed).
+- Hero console warnings: "THREE.Clock deprecated" comes from @react-three/fiber 9.8 + three 0.187 (library-side).
+- npm audit: sharp (via velite, build-time only) and minimatch (shadcn tooling) advisories; re-check before launch.

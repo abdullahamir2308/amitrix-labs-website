@@ -3,7 +3,6 @@ import Link from "next/link";
 import { LatticeLockup, LatticeMark } from "@/components/brand/logos";
 import {
   Counter,
-  CustomCursor,
   DecodeText,
   Magnetic,
   Marquee,
@@ -72,10 +71,9 @@ const MARQUEE_ITEMS = ["AI agents", "Automation", "Web platforms", "SaaS", "Mobi
 export default function PlaygroundPage() {
   return (
     <div className="flex-1">
-      <CustomCursor />
 
       {/* Top bar */}
-      <header className="sticky top-0 z-50 border-b border-line bg-background/80 backdrop-blur-md">
+      <div className="sticky top-[var(--header-h)] z-30 mt-[var(--header-h)] border-b border-line bg-background/80 backdrop-blur-md">
         <Container size="wide" className="flex h-14 items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <Link href="/" aria-label="Amitrix Labs home" className="rounded-sm">
@@ -99,7 +97,7 @@ export default function PlaygroundPage() {
           </nav>
           <ThemeToggle />
         </Container>
-      </header>
+      </div>
 
       {/* Hero (forced dark) */}
       <section className="section-dark relative isolate overflow-hidden">

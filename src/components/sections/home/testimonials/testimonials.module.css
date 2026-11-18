@@ -1,0 +1,20 @@
+/* Autoplay progress bar. Its animationend advances the carousel, so pausing the
+   animation (hover / focus / pause button / off-screen) pauses the timer too. */
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.progress {
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: fill var(--slide-duration, 7s) linear forwards;
+}
+
+.progress[data-paused] {
+  animation-play-state: paused;
+}

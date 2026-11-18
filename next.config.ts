@@ -6,11 +6,22 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
+    // Tailwind v4 runs as a Turbopack loader. CSS Modules must keep their
+    // ".module.css" identity (as: "*.module.css"), otherwise Turbopack
+    // treats them as global CSS and `import s from "./x.module.css"` is {}.
     rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
-      },
+      "*.css": [
+        {
+          condition: { path: /\.module\.css$/ },
+          loaders: ["@tailwindcss/turbopack"],
+          as: "*.module.css",
+        },
+        {
+          condition: { not: { path: /\.module\.css$/ } },
+          loaders: ["@tailwindcss/turbopack"],
+          as: "*.css",
+        },
+      ],
     },
   },
 };
