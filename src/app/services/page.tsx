@@ -5,22 +5,16 @@ import { PageHeader } from "@/components/sections/page-header";
 import { ServiceList } from "@/components/sections/services/service-list";
 import { Section } from "@/components/ui/section";
 import { getServices } from "@/lib/content";
+import { createMetadata } from "@/lib/seo";
+import { site } from "@/lib/site";
 
-// Draft page copy. TODO(site config): move into src/lib/site.ts with the other page headers.
-const PAGE = {
-  eyebrow: "Services",
-  title: "Custom software and AI, from first idea to production.",
-  intro:
-    "Six disciplines, one senior team. Pick the one you need today — strategy, design and engineering stay together, so nothing gets lost in handover.",
-  description:
-    "Custom software development, AI agents and automation, web and SaaS platforms, mobile apps, product design and cloud & DevOps — delivered by one senior team.",
-};
+const PAGE = site.pages.services;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createMetadata({
   title: "Services",
   description: PAGE.description,
-  alternates: { canonical: "/services" },
-};
+  path: "/services",
+});
 
 export default function ServicesPage() {
   const services: ServiceRowData[] = getServices().map((s) => ({

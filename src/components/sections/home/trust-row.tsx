@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Marquee, TextReveal } from "@/components/motion";
+import { Marquee } from "@/components/motion/marquee";
+import { TextReveal } from "@/components/motion/text-reveal";
 import { Section } from "@/components/ui/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { getClients } from "@/lib/content";

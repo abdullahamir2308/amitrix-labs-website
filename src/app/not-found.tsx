@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LatticeMotif } from "@/components/brand/lattice-motif";
-import { DecodeText } from "@/components/motion";
+import { DecodeText } from "@/components/motion/decode-text";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 

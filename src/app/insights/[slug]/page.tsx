@@ -8,6 +8,10 @@ import { PageHeader } from "@/components/sections/page-header";
 import styles from "@/components/sections/insights/article.module.css";
 import { articleMdxComponents } from "@/components/sections/insights/mdx-components";
 import { PostCard } from "@/components/sections/insights/post-card";
+import { RelatedWork } from "@/components/sections/work/related-work";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
+import { RelatedServices } from "@/components/seo/related";
 import { formatPostDate, tagSlug, toPostSummary } from "@/components/sections/insights/post-summary";
 import { ReadingProgress } from "@/components/sections/insights/reading-progress";
 import { ShareLinks } from "@/components/sections/insights/share-links";
@@ -17,6 +21,13 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { getPost, getPostAuthor, getPosts, getRelatedPosts } from "@/lib/content";
 import { MDXContent } from "@/lib/mdx";
 import { cn } from "@/lib/cn";
+import {
+  articleJsonLd,
+  createMetadata,
+  crumbs,
+  getServicesForPost,
+  getWorkForPost,
+} from "@/lib/seo";
 import { site } from "@/lib/site";
 
 /**
@@ -36,21 +47,19 @@ export async function generateMetadata({ params }: PageProps<"/insights/[slug]">
   const post = getPost(slug);
   if (!post) return {};
   const author = getPostAuthor(post);
-  return {
+  return createMetadata({
     title: post.title,
     description: post.excerpt,
-    alternates: { canonical: post.url },
-    authors: author ? [{ name: author.name }] : undefined,
-    openGraph: {
-      type: "article",
-      title: post.title,
-      description: post.excerpt,
-      url: post.url,
+    path: post.url,
+    keywords: post.tags,
+    routeImage: true,
+    article: {
       publishedTime: post.date,
-      modifiedTime: post.updated ?? post.date,
+      modifiedTime: post.updated,
+      authors: author ? [author.name] : undefined,
       tags: post.tags,
     },
-  };
+  });
 }
 
 export default async function ArticlePage({ params }: PageProps<"/insights/[slug]">) {
@@ -61,9 +70,13 @@ export default async function ArticlePage({ params }: PageProps<"/insights/[slug
   const author = getPostAuthor(post);
   const related = getRelatedPosts(post.slug, 3).map((p) => toPostSummary(p, getPostAuthor(p)));
   const shareUrl = `${site.url}${post.url}`;
+  const services = getServicesForPost(post);
+  const work = getWorkForPost(post);
 
   return (
     <>
+      <Breadcrumbs items={crumbs("Insights", "/insights", { name: post.title, href: post.url })} />
+      <JsonLd data={articleJsonLd(post, author)} />
       <ReadingProgress targetId="article-body" />
 
       <PageHeader
@@ -122,7 +135,7 @@ export default async function ArticlePage({ params }: PageProps<"/insights/[slug
 
       <Container className="pt-10 pb-section md:pt-14">
         <div className="relative mb-12 aspect-[16/9] overflow-hidden rounded-2xl border border-line bg-surface md:mb-16 lg:aspect-[21/9]">
-          <Image src={post.cover} alt="" fill priority sizes="(min-width: 1280px) 76rem, 100vw" className="object-cover" />
+          <Image src={post.cover} alt="" fill loading="eager" fetchPriority="high" sizes="(min-width: 1280px) 76rem, 100vw" className="object-cover" />
         </div>
 
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-16 xl:grid-cols-[13rem_minmax(0,1fr)_13rem]">
@@ -183,6 +196,14 @@ export default async function ArticlePage({ params }: PageProps<"/insights/[slug
           </aside>
         </div>
       </Container>
+
+      <RelatedServices services={services} className="border-t border-line" />
+
+      <RelatedWork
+        items={work}
+        title="Related case studies"
+        className="border-t border-line"
+      />
 
       {related.length ? (
         <section aria-labelledby="related-title" className="border-t border-line py-section">

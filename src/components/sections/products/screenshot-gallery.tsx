@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Expand } from "lucide-react";
 import { WindowFrame } from "@/components/cards/window-frame";
-import { Reveal } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

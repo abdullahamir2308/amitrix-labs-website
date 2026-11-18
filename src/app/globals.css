@@ -232,7 +232,8 @@
   --accent-foreground: var(--brand-ink);
   --destructive: oklch(0.577 0.245 27.325);
   --success: #047857;
-  --warning: #b45309;
+  /* Darker than amber-700 so warning labels pass 4.5:1 on their own 7% warning tint. */
+  --warning: #a74c08;
   --border: var(--line);
   --input: var(--line-strong);
   --ring: var(--brand-indigo);
@@ -253,13 +254,19 @@
   --sidebar-ring: var(--brand-indigo);
 }
 
-/* Dark (ink): site-wide dark mode AND forced-dark sections share one block. */
+/*
+ * Dark (ink): site-wide dark mode AND forced-dark sections share one block.
+ * The header's pre-JS "auto" tone uses :has() with the HEADER as the subject (header ~ #main
+ * are siblings). Don't write it as `body:has(...) [data-header-tone]`: a non-subject :has() on
+ * <body> makes Chrome restyle the whole document on every DOM change (measured ~50ms/frame
+ * on a throttled phone while the hero animates).
+ */
 .dark,
 .section-dark,
 [data-theme-section="dark"],
 .tone-dark,
 [data-header-tone="dark"],
-body:has([data-page] > :is(.section-dark, [data-theme-section="dark"]):first-child) [data-header-tone="auto"] {
+[data-header-tone="auto"]:has(~ #main > [data-page] > :is(.section-dark, [data-theme-section="dark"]):first-child) {
   --background: var(--brand-ink);
   --foreground: var(--brand-paper);
   --surface: #11111b;
@@ -315,7 +322,7 @@ body:has([data-page] > :is(.section-dark, [data-theme-section="dark"]):first-chi
  */
 .tone-dark,
 [data-header-tone="dark"],
-body:has([data-page] > :is(.section-dark, [data-theme-section="dark"]):first-child) [data-header-tone="auto"] {
+[data-header-tone="auto"]:has(~ #main > [data-page] > :is(.section-dark, [data-theme-section="dark"]):first-child) {
   color-scheme: dark;
   color: var(--foreground);
 }

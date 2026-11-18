@@ -1,4 +1,4 @@
-import { Reveal } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
 import {
   Accordion,
   AccordionContent,

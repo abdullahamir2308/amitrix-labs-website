@@ -18,11 +18,16 @@ export type CounterProps = {
   delay?: number;
   /** Thousands separators etc. Fixed locale keeps server and client output identical. */
   locale?: string;
+  /**
+   * "inView" (default) counts when it scrolls into view; "mount" counts right after hydration
+   * (above-the-fold stats, e.g. the hero), independent of scroll position / ScrollTrigger.
+   */
+  trigger?: "inView" | "mount";
   className?: string;
 };
 
 /**
- * Counts up to `value` when it scrolls into view. The final value is in the
+ * Counts up to `value` when it scrolls into view (or on mount with `trigger="mount"`). The final value is in the
  * server HTML and in an sr-only copy; the animated digits are aria-hidden and
  * sit on top of an invisible copy of the final value, so the width never
  * changes (no layout shift). Reduced motion: static final value.
@@ -36,6 +41,7 @@ export function Counter({
   duration = 1.6,
   delay = 0,
   locale = "en-US",
+  trigger = "inView",
   className,
 }: CounterProps) {
   const rootRef = useRef<HTMLSpanElement>(null);
@@ -61,20 +67,15 @@ export function Counter({
       };
       render();
 
-      ScrollTrigger.create({
-        trigger: root,
-        start: REVEAL_START,
-        once: true,
-        onEnter: () => {
-          gsap.to(state, { n: value, duration, delay, ease: "expo.out", onUpdate: render });
-        },
-      });
+      const play = () => gsap.to(state, { n: value, duration, delay, ease: "expo.out", onUpdate: render });
+      if (trigger === "mount") play();
+      else ScrollTrigger.create({ trigger: root, start: REVEAL_START, once: true, onEnter: play });
 
       return () => {
         live.textContent = finalText;
       };
     },
-    { scope: rootRef, dependencies: [value, from, decimals, prefix, suffix, duration, delay, locale] },
+    { scope: rootRef, dependencies: [value, from, decimals, prefix, suffix, duration, delay, locale, trigger] },
   );
 
   return (

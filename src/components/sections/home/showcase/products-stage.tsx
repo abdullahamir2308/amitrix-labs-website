@@ -136,7 +136,7 @@ export function ProductsStage({ products, exploreLabel }: { products: ShowcasePr
                     aria-current={i === active ? "true" : undefined}
                     className={cn(
                       "rounded-sm py-1.5 text-left text-heading-md transition-colors duration-300 ease-expo-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring",
-                      i === active ? "text-foreground" : "text-foreground/35 hover:text-foreground/70",
+                      i === active ? "text-foreground" : "text-foreground/45 hover:text-foreground/75",
                     )}
                   >
                     {p.name}

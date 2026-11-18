@@ -14,6 +14,7 @@ const VIEW = { ...LATTICE_VIEW, positionX: 0.6, positionY: -1.3, rotationX: -1.1
 const FPS = 30;
 const INTRO_SECONDS = 1.4;
 const BUCKETS = 4;
+const MAX_DPR = 1.25;
 
 const rgb = (c: readonly number[]) => c.map((v) => Math.round(v * 255)).join(" ");
 
@@ -71,7 +72,9 @@ export default function LatticeCanvas2D({ active, scrollRef, onReady }: LatticeC
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      // Phones: a soft, masked background layer reads fine at ~1.25x, and every canvas frame is
+      // uploaded on the main thread (commit cost scales with pixels: 1.25x ≈ 30% less than 1.5x).
+      dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
       w = rect.width;
       h = rect.height;
       canvas.width = Math.round(w * dpr);

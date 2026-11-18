@@ -7,14 +7,14 @@ import { InsightsBrowser, InsightsBrowserFallback } from "@/components/sections/
 import { toPostSummary } from "@/components/sections/insights/post-summary";
 import { Container } from "@/components/ui/container";
 import { getFeaturedPost, getPostAuthor, getPosts, getPostTags } from "@/lib/content";
+import { createMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createMetadata({
   title: "Insights",
-  description:
-    "Notes from the lab: how we build AI agents, software products and client platforms — engineering, design and process.",
-  alternates: { canonical: "/insights" },
-};
+  description: site.pages.insights.description,
+  path: "/insights",
+});
 
 export default function InsightsPage() {
   const posts = getPosts().map((p) => toPostSummary(p, getPostAuthor(p)));

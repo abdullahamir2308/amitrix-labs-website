@@ -3,23 +3,28 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import { Check } from "lucide-react";
-import type { FAQPage, WithContext } from "schema-dts";
 import { ContentIcon } from "@/components/cards/content-icon";
-import { Magnetic, Reveal } from "@/components/motion";
+import { Magnetic } from "@/components/motion/magnetic";
+import { Reveal } from "@/components/motion/reveal";
 import { CtaPanel } from "@/components/sections/cta-panel";
 import { PageHeader } from "@/components/sections/page-header";
 import { FaqSection } from "@/components/sections/services/faq-section";
 import { ProcessSteps } from "@/components/sections/services/process-steps";
 import { Prose } from "@/components/sections/work/prose";
 import { RelatedWork } from "@/components/sections/work/related-work";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
+import { RelatedPosts } from "@/components/seo/related";
 import { Button } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
+import { getService, getServices, getServiceWork } from "@/lib/content";
 import {
-  getService,
-  getServices,
-  getServiceWork,
-  type Service,
-} from "@/lib/content";
+  createMetadata,
+  crumbs,
+  faqJsonLd,
+  getPostsForService,
+  serviceJsonLd,
+} from "@/lib/seo";
 
 /**
  * Every slug is prerendered by generateStaticParams. `params` is awaited at the top (not inside
@@ -38,28 +43,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = getService(slug);
   if (!service) return {};
-  return {
+  return createMetadata({
     title: `${service.title} Services`,
     description: service.summary,
-    alternates: { canonical: service.url },
-    openGraph: {
-      title: `${service.title} — Amitrix Labs`,
-      description: service.summary,
-      images: service.image ? [service.image.src] : undefined,
-    },
-  };
-}
-
-function faqJsonLd(service: Service): WithContext<FAQPage> {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: service.faqs.map((f) => ({
-      "@type": "Question",
-      name: f.q,
-      acceptedAnswer: { "@type": "Answer", text: f.a },
-    })),
-  };
+    path: service.url,
+    routeImage: true,
+  });
 }
 
 export default async function ServicePage({
@@ -70,19 +59,17 @@ export default async function ServicePage({
   if (!service) notFound();
 
   const work = getServiceWork(slug);
+  const posts = getPostsForService(service);
   let n = 0;
   const next = () => ++n;
 
   return (
     <>
-      {service.faqs.length ? (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(faqJsonLd(service)).replace(/</g, "\\u003c"),
-          }}
-        />
-      ) : null}
+      <Breadcrumbs
+        items={crumbs("Services", "/services", { name: service.title, href: service.url })}
+      />
+      <JsonLd data={serviceJsonLd(service)} />
+      {service.faqs.length ? <JsonLd data={faqJsonLd(service.faqs)} /> : null}
 
       <PageHeader
         eyebrow="Services"
@@ -225,6 +212,13 @@ export default async function ServicePage({
           className="border-t border-line"
         />
       </div>
+
+      <RelatedPosts
+        posts={posts}
+        index={posts.length ? next() : undefined}
+        title={`${service.shortTitle}: notes from the lab`}
+        className="border-t border-line"
+      />
 
       <FaqSection
         faqs={service.faqs}

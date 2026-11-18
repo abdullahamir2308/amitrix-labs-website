@@ -37,7 +37,7 @@ export function LegalDocument({ lastUpdated, sections }: { lastUpdated: string; 
                       href={`#${s.id}`}
                       className="-ml-px flex gap-2 border-l border-transparent py-0.5 pl-4 text-body-sm text-muted-foreground transition-colors hover:border-line-strong hover:text-foreground"
                     >
-                      <span className="font-mono text-[0.75rem] tabular-nums opacity-70">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="font-mono text-[0.75rem] tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                       {s.title}
                     </a>
                   </li>

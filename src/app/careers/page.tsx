@@ -6,33 +6,41 @@ import { OpenRoles } from "@/components/sections/careers/open-roles";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { getJobs } from "@/lib/content";
+import { createMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
+const PAGE = site.pages.careers;
+
+export const metadata: Metadata = createMetadata({
   title: "Careers",
-  description: `Join ${site.name}: build software products and AI for clients in every industry with a small, senior team.`,
-  alternates: { canonical: "/careers" },
-};
+  description: PAGE.description,
+  path: "/careers",
+});
 
 export default function CareersPage() {
   const jobs = getJobs();
   return (
     <>
       <PageHeader
-        eyebrow="Careers"
-        title="Build things that actually ship."
-        intro="We're a small team that builds our own products and custom software and AI for clients. If you like owning work end to end, you'll fit right in."
+        eyebrow={PAGE.eyebrow}
+        title={PAGE.title}
+        intro={PAGE.intro}
       />
 
-      <Culture intro={site.about.careersIntro} principles={site.why} />
+      <Culture
+        eyebrow={PAGE.cultureSection.eyebrow}
+        heading={PAGE.cultureSection.heading}
+        intro={site.about.careersIntro}
+        principles={PAGE.culture}
+      />
 
       <section aria-labelledby="roles-title" className="border-t border-line py-section">
         <Container>
           <div className="mb-10 flex flex-col gap-5 md:mb-14 md:flex-row md:items-end md:justify-between">
             <div className="flex flex-col gap-5">
-              <Eyebrow index="02">Open roles</Eyebrow>
+              <Eyebrow index="02">{PAGE.roles.eyebrow}</Eyebrow>
               <h2 id="roles-title" className="text-display-md text-foreground">
-                {jobs.length ? "Join the lab." : "No open roles right now."}
+                {jobs.length ? PAGE.roles.heading : PAGE.roles.headingEmpty}
               </h2>
             </div>
             {jobs.length ? (

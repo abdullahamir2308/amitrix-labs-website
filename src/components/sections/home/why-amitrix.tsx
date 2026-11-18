@@ -1,4 +1,4 @@
-import { Reveal } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
 import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/cn";
 import { site } from "@/lib/site";

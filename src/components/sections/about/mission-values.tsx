@@ -1,5 +1,6 @@
 import { FlaskConical, Handshake, Sparkles, Target, type LucideIcon } from "lucide-react";
-import { Reveal, SpotlightCard } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
+import { SpotlightCard } from "@/components/motion/spotlight-card";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import type { IconItem } from "@/lib/site";

@@ -1,9 +1,12 @@
 "use client";
 
 import { useRef, type ElementType } from "react";
-import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
+import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
+import { gsap, registerGsapPlugins, useGSAP, ScrollTrigger } from "@/lib/gsap";
 import { DECODE_CHARS, MEDIA, REVEAL_START } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+
+registerGsapPlugins(ScrambleTextPlugin);
 
 export type DecodeTextProps = {
   /** The final text (plain string). */
@@ -25,7 +28,9 @@ export type DecodeTextProps = {
  * Scrambles from random characters into the final text (GSAP ScrambleTextPlugin).
  * The real text stays in the DOM the whole time (only its colour is made
  * transparent while an aria-hidden overlay scrambles on top), so screen
- * readers, SEO and layout never see the random characters. Reduced motion: static.
+ * readers, SEO and layout never see the random characters. The overlay is clipped
+ * horizontally to the word's box, so wide scramble glyphs never spill past the
+ * final text. Reduced motion: static.
  */
 export function DecodeText({
   children: text,
@@ -101,7 +106,7 @@ export function DecodeText({
         <span
           ref={overlayRef}
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 whitespace-pre-wrap"
+          className="pointer-events-none absolute inset-0 overflow-x-clip whitespace-pre-wrap"
         />
       </span>
     </Tag>

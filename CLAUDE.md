@@ -71,7 +71,7 @@ Update this list at the end of every phase (one line each: what was done + any d
 - [x] Phase 8 — Content system (done early, in Wave 1): Velite started from next.config (dev watch / strict build), 8 typed collections, placeholder content + SVGs, src/lib/{content,mdx,site}.ts, content/README.md; images via s.image(absoluteRoot "public"). Pages import only from @/lib/content, @/lib/mdx, @/lib/site.
 - [x] Phase 9 — Products/Services/Work: index pages + [slug] pages (launch page with tilt frame/features/gallery; service page problem→deliver→process→stack→related→FAQ + FAQPage JSON-LD; case study with sidebar/Counter results/testimonial/next). /work filters in URL params. Slug pages await params at top with instant=false.
 - [x] Phase 10 — About (DrawSVG timeline, team grid), Insights (featured, URL tag/search, article with TOC/progress/code styling/share/related), Careers (expandable roles + empty state), Contact (zod → /api/contact Route Handler, Resend + React Email, honeypot + in-memory rate limit, dev/503 fallbacks, Cal.com embed or placeholder card), placeholder Privacy/Terms, custom 404.
-- [ ] Phase 11 — SEO, performance, accessibility pass
+- [x] Phase 11 — Quality pass. SEO: createMetadata on every page, brand OG images (next/og), sitemap/robots, JSON-LD (Organization, WebSite, Service, SoftwareApplication, BlogPosting, FAQPage, BreadcrumbList), breadcrumbs, cross-links, src/proxy.ts slug allowlist (real 404s), page copy moved to site.pages. Perf/a11y: removed per-frame full-page restyles, deferred lattice, smaller shared JS (precompiled cn tables, per-component GSAP plugins, lazy Lenis/zod, direct motion imports — never import the @/components/motion barrel outside /playground), WCAG AA fixes. Lighthouse mobile: Home 98/100/100/100, service 99/100/100/100, article 99/100/100/100, case study 83/100/100/100.
 - [ ] Phase 12 — Launch (needs the owner: GitHub, Vercel, DNS)
 
 ## Parallel work rules (multi-agent build)
@@ -83,10 +83,9 @@ Several agents work in this repo at the same time. Each agent is given a list of
 - Do NOT run git commands that change state (add/commit/checkout/stash/reset). The orchestrator commits after each wave.
 - Do not edit CLAUDE.md except where your task says so; report CLAUDE.md updates in your final report instead.
 
-## Open follow-ups (from Wave 2 integration — handle in Phase 11 or a polish pass)
-- Unknown slugs under /services, /work, /insights (and /products on first hit) return HTTP 200 with the not-found UI + noindex (soft 404) on the production server, because the PPR shell streams before notFound(). `dynamicParams` is unavailable with Cache Components; consider a `src/proxy.ts` allowlist of known slugs (generated from .velite) that rewrites unknown slugs to a real 404.
-- Counter: add optional `trigger="mount"` so hero stats count without scroll dependence. DecodeText: constrain the scramble overlay width to the word so wide glyphs don't spill.
-- Move draft copy into src/lib/site.ts: the `PAGE` constants in /products, /services, /work index pages; About/Careers/Contact section headings; a `careers.culture` list (careers currently reuses site.why). site.sections.trust eyebrow duplicates its heading ("Trusted by" / "Trusted by teams at").
-- Recheck LCP on /services/[slug] (a dev warning flagged the service image as LCP before PageHeader existed).
-- Hero console warnings: "THREE.Clock deprecated" comes from @react-three/fiber 9.8 + three 0.187 (library-side).
+## Open follow-ups
+- Case-study page (/work/[slug]) Lighthouse mobile perf is 83 (LCP ~4.4s simulated): too much JS before first paint. Biggest lever: Motion LazyMotion + `m` components across ~15 components.
+- "THREE.Clock deprecated" console warning comes from @react-three/fiber internals; revisit when R3F updates.
 - npm audit: sharp (via velite, build-time only) and minimatch (shadcn tooling) advisories; re-check before launch.
+- Regenerate the cn class tables after changing src/lib/cn.config.mjs: `npx cn build --full --no-css --config src/lib/cn.config.mjs -o src/lib/cn-tables.generated.ts`.
+- Perf builds: `NEXT_DIST_DIR=.next-perf npx next build` builds beside the dev server's output.

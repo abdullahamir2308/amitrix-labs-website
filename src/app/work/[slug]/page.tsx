@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Reveal } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
 import { ScreenshotGallery } from "@/components/sections/products/screenshot-gallery";
 import { CtaPanel } from "@/components/sections/cta-panel";
 import { PageHeader } from "@/components/sections/page-header";
@@ -10,6 +10,8 @@ import { CaseResults } from "@/components/sections/work/case-results";
 import { CaseTestimonial } from "@/components/sections/work/case-testimonial";
 import { NextCase } from "@/components/sections/work/next-case";
 import { Prose } from "@/components/sections/work/prose";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { RelatedPosts } from "@/components/seo/related";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Section } from "@/components/ui/section";
@@ -20,6 +22,7 @@ import {
   getWork,
   getWorkItem,
 } from "@/lib/content";
+import { createMetadata, crumbs, getPostsForWork } from "@/lib/seo";
 
 /**
  * Every slug is prerendered by generateStaticParams. `params` is awaited at the top (not inside
@@ -38,16 +41,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const item = getWorkItem(slug);
   if (!item) return {};
-  return {
+  return createMetadata({
     title: item.title,
     description: item.summary,
-    alternates: { canonical: item.url },
-    openGraph: {
-      title: item.title,
-      description: item.summary,
-      images: [item.coverImage.src],
-    },
-  };
+    path: item.url,
+    routeImage: true,
+  });
 }
 
 function MetaRow({
@@ -79,30 +78,34 @@ export default async function CaseStudyPage({
     ? getTestimonial(item.testimonialId)
     : undefined;
   const next = getNextWork(slug);
+  const posts = getPostsForWork(item);
 
   return (
     <>
+      <Breadcrumbs
+        items={crumbs("Work", "/work", { name: item.title, href: item.url })}
+      />
+
       <PageHeader
         eyebrow={`Case study — ${item.industry}`}
         title={item.title}
         intro={item.summary}
       />
 
-      {/* Cover */}
+      {/* Cover: the LCP image on phones, so it is not wrapped in <Reveal> (opacity 0 until hydration). */}
       <Container size="wide">
-        <Reveal y={40}>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-line bg-surface shadow-elevated md:aspect-[2/1] md:rounded-3xl">
-            <Image
-              src={item.coverImage}
-              alt=""
-              fill
-              priority
-              placeholder={item.coverImage.blurDataURL ? "blur" : "empty"}
-              sizes="(min-width: 1472px) 92rem, 100vw"
-              className="object-cover"
-            />
-          </div>
-        </Reveal>
+        <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-line bg-surface shadow-elevated md:aspect-[2/1] md:rounded-3xl">
+          <Image
+            src={item.coverImage}
+            alt=""
+            fill
+            loading="eager"
+            fetchPriority="high"
+            placeholder={item.coverImage.blurDataURL ? "blur" : "empty"}
+            sizes="(min-width: 1472px) 92rem, 100vw"
+            className="object-cover"
+          />
+        </div>
       </Container>
 
       {/* Sidebar + story */}
@@ -182,6 +185,12 @@ export default async function CaseStudyPage({
       ) : null}
 
       {testimonial ? <CaseTestimonial testimonial={testimonial} /> : null}
+
+      <RelatedPosts
+        posts={posts}
+        title="Related reading"
+        className="border-t border-line"
+      />
 
       {next ? <NextCase item={next} /> : null}
 

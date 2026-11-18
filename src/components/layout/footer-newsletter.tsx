@@ -73,7 +73,7 @@ export function FooterNewsletter({ copy }: { copy: Copy }) {
                     setValue(e.target.value);
                     if (error) setError(null);
                   }}
-                  className="min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/70"
+                  className="min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
                 />
                 <button
                   type="submit"

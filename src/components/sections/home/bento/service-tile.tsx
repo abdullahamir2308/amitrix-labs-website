@@ -11,7 +11,7 @@ import {
   Sparkles,
   type LucideIcon,
 } from "lucide-react";
-import { SpotlightCard } from "@/components/motion";
+import { SpotlightCard } from "@/components/motion/spotlight-card";
 import { cn } from "@/lib/cn";
 import type { Service } from "@/lib/content";
 import { VisualFrame } from "./visual-frame";

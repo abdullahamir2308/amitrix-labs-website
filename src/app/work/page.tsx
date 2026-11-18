@@ -10,22 +10,16 @@ import {
 } from "@/components/sections/work/work-grid";
 import { Section } from "@/components/ui/section";
 import { getWork, getWorkIndustries, getWorkServices } from "@/lib/content";
+import { createMetadata } from "@/lib/seo";
+import { site } from "@/lib/site";
 
-// Draft page copy. TODO(site config): move into src/lib/site.ts with the other page headers.
-const PAGE = {
-  eyebrow: "Work",
-  title: "Case studies from teams we've built with.",
-  intro:
-    "Software, AI agents and products that made a measurable difference. Filter by industry or by service.",
-  description:
-    "Case studies from Amitrix Labs: custom software, AI agents and automation, web platforms and mobile apps for teams in every industry.",
-};
+const PAGE = site.pages.work;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createMetadata({
   title: "Work",
   description: PAGE.description,
-  alternates: { canonical: "/work" },
-};
+  path: "/work",
+});
 
 export default function WorkPage() {
   const items = getWork().map(toWorkCardData);

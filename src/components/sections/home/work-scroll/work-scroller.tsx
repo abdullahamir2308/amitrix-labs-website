@@ -231,9 +231,10 @@ function WorkCard({ card, index, viewLabel }: { card: WorkCardData; index: numbe
     <Link
       href={card.href}
       data-cursor="view"
-      aria-label={`${viewLabel}: ${card.title}`}
       className="group/card flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-card text-card-foreground shadow-card transition-[border-color,box-shadow] duration-300 ease-expo-out hover:border-line-strong hover:shadow-elevated"
     >
+      {/* Name comes from the visible content (no aria-label, which would hide the card text). */}
+      <span className="sr-only">{viewLabel}: </span>
       <div className="relative aspect-[16/10] overflow-hidden border-b border-line bg-surface">
         <Image
           src={card.image}

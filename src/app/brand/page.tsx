@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/card";
 import { LatticeLockup, LOGO_CONCEPTS, type LogoConcept } from "@/components/brand/logos";
 import { PALETTES, paletteVars, type Palette } from "@/components/brand/tokens";
+import { hiddenPageMetadata } from "@/lib/seo";
 
 // Hidden review page: not linked from the main navigation and not indexed.
-export const metadata: Metadata = {
-  title: "Brand starter",
-  description: "Internal review page: logo concepts, palettes and type for Amitrix Labs.",
-  robots: { index: false, follow: false },
-};
+export const metadata: Metadata = hiddenPageMetadata(
+  "Brand starter",
+  "Internal review page: logo concepts, palettes and type for Amitrix Labs.",
+);
 
 const CHOSEN = { concept: "01", palette: "lab" as Palette["id"] };
 

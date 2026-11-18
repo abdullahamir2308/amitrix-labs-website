@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown, Menu } from "lucide-react";
 import { LatticeLockup, LatticeMark } from "@/components/brand/logos";
-import { Magnetic } from "@/components/motion";
+import { Magnetic } from "@/components/motion/magnetic";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -192,6 +192,37 @@ export function Header({ data }: { data: HeaderData }) {
       focusFirstOnOpen.current = true;
       show(id);
       requestAnimationFrame(() => focusFirstLink());
+      return;
+    }
+    // The shared panel sits after the whole nav list in the DOM. While it is open, Tab from its
+    // trigger goes into the panel (disclosure pattern: content follows its button).
+    if (event.key === "Tab" && !event.shiftKey && openMenu === id) {
+      const first = document.getElementById(panelId)?.querySelector<HTMLElement>("a[href]");
+      if (first) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+  };
+
+  /** Tab past the panel's edges: back to its trigger, or on to the nav item after it. */
+  const onPanelKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "Tab" || !openMenu) return;
+    const focusables = Array.from(event.currentTarget.querySelectorAll<HTMLElement>("a[href], button:not([disabled])"));
+    const trigger = triggerRefs.current[openMenu];
+    if (!trigger || !focusables.length) return;
+    if (event.shiftKey && document.activeElement === focusables[0]) {
+      event.preventDefault();
+      trigger.focus();
+      return;
+    }
+    if (!event.shiftKey && document.activeElement === focusables[focusables.length - 1]) {
+      const items = Array.from(navRef.current?.querySelectorAll<HTMLElement>("nav a[href], nav button") ?? []);
+      const next = items[items.indexOf(trigger) + 1];
+      if (!next) return; // last nav item: let the browser move on (theme toggle)
+      event.preventDefault();
+      close();
+      next.focus();
     }
   };
 
@@ -307,6 +338,7 @@ export function Header({ data }: { data: HeaderData }) {
                     menu={activeMenu}
                     direction={direction}
                     onNavigate={() => close()}
+                    onKeyDown={onPanelKeyDown}
                     onPointerEnter={onRegionEnter}
                     onPointerLeave={(e) => onRegionLeave(e.pointerType)}
                   />
@@ -459,6 +491,7 @@ function MegaPanel({
   menu,
   direction,
   onNavigate,
+  onKeyDown,
   onPointerEnter,
   onPointerLeave,
 }: {
@@ -466,6 +499,7 @@ function MegaPanel({
   menu: MegaMenu;
   direction: number;
   onNavigate: () => void;
+  onKeyDown: (event: ReactKeyboardEvent<HTMLDivElement>) => void;
   onPointerEnter: () => void;
   onPointerLeave: (event: React.PointerEvent) => void;
 }) {
@@ -489,6 +523,7 @@ function MegaPanel({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -6, scale: 0.985, transition: { duration: 0.16, ease: EASE.inOut } }}
       transition={{ duration: 0.32, ease: EASE.expoOut }}
+      onKeyDown={onKeyDown}
       onPointerEnter={onPointerEnter}
       onPointerLeave={onPointerLeave}
       className="pointer-events-auto w-full max-w-[54rem] origin-top overflow-hidden rounded-2xl border border-line-strong bg-popover text-popover-foreground shadow-elevated"

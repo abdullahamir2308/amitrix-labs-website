@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { SpotlightCard } from "@/components/motion";
+import { SpotlightCard } from "@/components/motion/spotlight-card";
 import type { Product } from "@/lib/content";
 import { cn } from "@/lib/cn";
 import { StatusBadge } from "./status-badge";
@@ -74,7 +74,8 @@ export function ProductCard({
                   ? "(min-width: 768px) 55vw, 100vw"
                   : "(min-width: 768px) 45vw, 100vw"
               }
-              priority={priority}
+              loading={priority ? "eager" : undefined}
+              fetchPriority={priority ? "high" : undefined}
               className="aspect-[16/10] w-full object-cover object-top"
             />
           </WindowFrame>
@@ -101,14 +102,14 @@ export function ProductCard({
             <StatusBadge status={product.status} />
           </div>
           <div className="flex flex-col gap-3">
-            <h3
+            <h2
               className={cn(
                 "text-heading-md text-foreground",
                 wide && "md:text-heading-lg",
               )}
             >
               {product.name}
-            </h3>
+            </h2>
             <p className="max-w-prose text-body text-muted-foreground">
               {product.tagline}
             </p>

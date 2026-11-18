@@ -1,7 +1,10 @@
 "use client";
 
 import { useId, useRef, type ReactNode } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+import { gsap, registerGsapPlugins, useGSAP } from "@/lib/gsap";
+
+registerGsapPlugins(DrawSVGPlugin);
 
 /**
  * Wraps the server-rendered process steps and draws the connecting hairline

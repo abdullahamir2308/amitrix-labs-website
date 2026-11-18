@@ -59,6 +59,9 @@ export const site = {
   seo: {
     titleTemplate: "%s — Amitrix Labs",
     defaultTitle: "Amitrix Labs — Software and AI that actually ships",
+    /** Meta description for the home page and the site-wide default (kept under ~160 characters). */
+    description:
+      "Amitrix Labs builds its own software products and delivers custom software, AI agents and automation for teams in every industry. Book a call.",
     keywords: [
       "AI agents",
       "AI automation",
@@ -90,7 +93,7 @@ export const site = {
 
   /** Home section headers (eyebrow + heading). Draft copy. */
   sections: {
-    trust: { eyebrow: "// TRUSTED BY", heading: "Trusted by teams at" },
+    trust: { eyebrow: "// CLIENTS", heading: "Trusted by teams at" },
     services: {
       eyebrow: "// 01 — SERVICES",
       heading: "Everything you need to go from idea to production.",
@@ -269,6 +272,102 @@ export const site = {
     calLink: "placeholder/30min",
     responseTime: "[Placeholder] We reply within one business day.",
     budgets: ["< $10k", "$10k – $25k", "$25k – $50k", "$50k – $100k", "$100k+", "Not sure yet"],
+  },
+
+  /**
+   * Inner-page copy (draft): header text, section headings and meta descriptions for the pages that
+   * used to hard-code them. Detail pages (/products/[slug] …) take their copy from /content.
+   */
+  pages: {
+    products: {
+      eyebrow: "Products",
+      title: "Software we build for ourselves — and for you.",
+      intro:
+        "Our own products, built with the same team, tools and standards we bring to client work. Some are live, some are in beta, some are on the way.",
+      description:
+        "Products built by Amitrix Labs: AI agents, automation and analytics software, built with the same team and standards we bring to client work.",
+      cta: {
+        title: "Want a product like this — built for your team?",
+        intro: "We design and build custom software and AI for teams in every industry.",
+      },
+    },
+    services: {
+      eyebrow: "Services",
+      title: "Custom software and AI, from first idea to production.",
+      intro:
+        "Six disciplines, one senior team. Pick the one you need today — strategy, design and engineering stay together, so nothing gets lost in handover.",
+      description:
+        "Custom software development, AI agents and automation, web and SaaS platforms, mobile apps, product design and cloud & DevOps — delivered by one senior team.",
+    },
+    work: {
+      eyebrow: "Work",
+      title: "Case studies from teams we've built with.",
+      intro:
+        "Software, AI agents and products that made a measurable difference. Filter by industry or by service.",
+      description:
+        "Case studies from Amitrix Labs: custom software, AI agents and automation, web platforms and mobile apps for teams in every industry.",
+    },
+    insights: {
+      description:
+        "Notes from the lab: how we build AI agents, software products and client platforms — engineering, design and process.",
+    },
+    about: {
+      eyebrow: "About",
+      title: "A product team that happens to build for you.",
+      description:
+        "Amitrix Labs is a product studio and engineering partner: we build our own software products and custom software and AI for teams in every industry.",
+      story: { eyebrow: "Our story", heading: "From first commit to products of our own." },
+      team: {
+        eyebrow: "Team",
+        heading: "Small, senior, hands-on.",
+        intro: "The people you meet on the first call are the people who build your product.",
+      },
+    },
+    careers: {
+      eyebrow: "Careers",
+      title: "Build things that actually ship.",
+      intro:
+        "We're a small team that builds our own products and custom software and AI for clients. If you like owning work end to end, you'll fit right in.",
+      description:
+        "Join Amitrix Labs: build software products and AI for clients in every industry with a small, senior team.",
+      cultureSection: { eyebrow: "Culture", heading: "Small senior teams. Real ownership." },
+      roles: { eyebrow: "Open roles", heading: "Join the lab.", headingEmpty: "No open roles right now." },
+      /** Draft culture principles. The Culture block only knows the Zap, Layers and Sparkles icons. */
+      culture: [
+        {
+          title: "Own the outcome",
+          description:
+            "You follow work from the first conversation to production, with the context and the trust to make the call.",
+          icon: "Zap",
+        },
+        {
+          title: "Small, senior teams",
+          description:
+            "Few layers and short feedback loops. You work next to people who raise the bar and share what they know.",
+          icon: "Layers",
+        },
+        {
+          title: "Always learning",
+          description:
+            "Room to try new tools and AI techniques, then bring what works into client and product work.",
+          icon: "Sparkles",
+        },
+      ] satisfies readonly IconItem[],
+    },
+    contact: {
+      eyebrow: "Contact",
+      title: "Let's build something that ships.",
+      /** Followed by contact.responseTime. */
+      introLead: "Tell us what you're working on, or book a call straight away.",
+      description:
+        "Book a call or send Amitrix Labs a message about your software, AI or product project. We reply within one business day.",
+      form: { eyebrow: "Send a message", heading: "Tell us about your project." },
+      details: { emailLabel: "Email", basedInLabel: "Based in", workingWithLabel: "Working with" },
+      closingCta: {
+        title: "Not ready to talk yet?",
+        intro: "See how we've helped other teams ship — then come back when you are.",
+      },
+    },
   },
 
   ctaLabels: {

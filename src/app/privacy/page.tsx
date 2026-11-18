@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/sections/page-header";
 import { LegalDocument, type LegalSection } from "@/components/sections/legal/legal-document";
+import { createMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 // [Placeholder] legal copy — must be reviewed by a qualified lawyer before launch.
 const LAST_UPDATED = "2026-11-17";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createMetadata({
   title: "Privacy Policy",
   description: `[Placeholder] How ${site.name} collects, uses and protects personal data.`,
-  alternates: { canonical: "/privacy" },
-};
+  path: "/privacy",
+});
 
 const sections: LegalSection[] = [
   {

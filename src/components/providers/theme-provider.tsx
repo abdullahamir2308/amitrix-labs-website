@@ -19,7 +19,8 @@ export function ThemeProvider(props: ComponentProps<typeof NextThemesProvider>) 
       attribute="class"
       defaultTheme="system"
       enableSystem
-      disableTransitionOnChange
+      // No disableTransitionOnChange: it also fires on hydration (global <style> inject + remove =
+      // two full-page style recalcs). ThemeToggle disables transitions itself, on click only.
       scriptProps={scriptProps}
       {...props}
     />

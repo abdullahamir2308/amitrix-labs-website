@@ -17,14 +17,14 @@ import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/cn";
+import { hiddenPageMetadata } from "@/lib/seo";
 import { ComponentPanel, Group } from "./_components/showcase";
 
 // Internal review page for the Phase 3 design system. Not linked, not indexed.
-export const metadata: Metadata = {
-  title: "Playground",
-  description: "Internal review page: design tokens, base UI and motion primitives.",
-  robots: { index: false, follow: false },
-};
+export const metadata: Metadata = hiddenPageMetadata(
+  "Playground",
+  "Internal review page: design tokens, base UI and motion primitives.",
+);
 
 const BRAND = [
   { name: "Paper", token: "paper", hex: "#FAFAF9", className: "bg-paper" },

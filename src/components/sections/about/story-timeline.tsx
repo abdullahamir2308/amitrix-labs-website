@@ -1,9 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import { gsap, useGSAP, ScrollTrigger } from "@/lib/gsap";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+import { gsap, registerGsapPlugins, useGSAP, ScrollTrigger } from "@/lib/gsap";
 import { MEDIA } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+
+registerGsapPlugins(DrawSVGPlugin);
 
 export type TimelineItem = { year: string; title: string; description: string };
 

@@ -1,4 +1,5 @@
-import { Counter, Reveal } from "@/components/motion";
+import { Counter } from "@/components/motion/counter";
+import { Reveal } from "@/components/motion/reveal";
 import { Section } from "@/components/ui/section";
 import type { WorkResult } from "@/lib/content";
 import { cn } from "@/lib/cn";

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Reveal } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
+import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
 import { CtaPanel } from "@/components/sections/cta-panel";
 import { FeatureGrid } from "@/components/sections/products/feature-grid";
 import { ProductHero } from "@/components/sections/products/product-hero";
@@ -10,6 +12,7 @@ import { Prose } from "@/components/sections/work/prose";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Section } from "@/components/ui/section";
 import { getProduct, getProducts } from "@/lib/content";
+import { createMetadata, crumbs, faqJsonLd, productJsonLd } from "@/lib/seo";
 
 /**
  * Every slug is prerendered by generateStaticParams. `params` is awaited at the top (not inside
@@ -28,16 +31,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = getProduct(slug);
   if (!product) return {};
-  return {
+  return createMetadata({
     title: product.name,
     description: product.tagline,
-    alternates: { canonical: product.url },
-    openGraph: {
-      title: product.name,
-      description: product.tagline,
-      images: [product.heroImage.src],
-    },
-  };
+    path: product.url,
+    routeImage: true,
+  });
 }
 
 export default async function ProductPage({
@@ -52,6 +51,11 @@ export default async function ProductPage({
 
   return (
     <>
+      {/* First element on the page: a dark trail keeps the site header's tone detection working. */}
+      <Breadcrumbs
+        tone="dark"
+        items={crumbs("Products", "/products", { name: product.name, href: product.url })}
+      />
       <ProductHero product={product} />
 
       <FeatureGrid
@@ -105,6 +109,9 @@ export default async function ProductPage({
         primaryLabel={product.ctaLabel ?? "Get started"}
         primaryHref={product.ctaUrl}
       />
+
+      <JsonLd data={productJsonLd(product)} />
+      {product.faqs.length ? <JsonLd data={faqJsonLd(product.faqs)} /> : null}
     </>
   );
 }

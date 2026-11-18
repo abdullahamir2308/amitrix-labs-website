@@ -1,9 +1,12 @@
 "use client";
 
 import { useRef, type ElementType, type ReactNode } from "react";
-import { gsap, useGSAP, SplitText } from "@/lib/gsap";
+import { SplitText } from "gsap/SplitText";
+import { gsap, registerGsapPlugins, useGSAP } from "@/lib/gsap";
 import { MEDIA, REVEAL_START } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+
+registerGsapPlugins(SplitText);
 
 export type TextRevealProps = {
   children: ReactNode;
@@ -25,6 +28,10 @@ export type TextRevealProps = {
  * so lines re-flow on resize / font load). The full text is server-rendered.
  * Before the split it is `visibility: hidden` (CSS, with a 2.5s failsafe and
  * a <noscript> override); reduced motion shows it as-is, never split.
+ *
+ * Accessibility: only lines are split (words stay whole), so the text is left
+ * readable as-is (`aria: "none"`). SplitText's default would put an aria-label
+ * on the element, which is invalid on a plain <span>/<p> (axe: aria-prohibited-attr).
  */
 export function TextReveal({
   children,
@@ -54,7 +61,7 @@ export function TextReveal({
         mask: "lines",
         linesClass: "text-reveal-line",
         autoSplit: true,
-        aria: "auto",
+        aria: "none",
         onSplit(self) {
           ready();
           return gsap.from(self.lines, {

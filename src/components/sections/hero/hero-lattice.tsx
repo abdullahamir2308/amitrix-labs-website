@@ -54,19 +54,27 @@ export function HeroLattice() {
   const onReady = useCallback(() => setReady(true), []);
   const fallback = useCallback(() => setMode("2d"), []);
 
-  // Choose + load the variant once the headline has painted and the main thread is idle.
+  // Choose + load the variant only after the page has loaded and the main thread is idle, so
+  // the lattice chunk, its first frames and (for WebGL) shader compilation never compete with
+  // hydration and the headline/LCP paint. The CSS glow + grid cover the hero until then.
   useEffect(() => {
     if (window.matchMedia(MEDIA.reducedMotion).matches) return;
     let idle = 0;
     let timer = 0;
+    let raf = 0;
     const start = () => {
       setMode(window.matchMedia(MEDIA.mobile).matches || !supportsWebGL() ? "2d" : "webgl");
     };
-    const raf = requestAnimationFrame(() => {
-      if (typeof window.requestIdleCallback === "function") idle = window.requestIdleCallback(start, { timeout: 1200 });
-      else timer = window.setTimeout(start, 250);
-    });
+    const schedule = () => {
+      raf = requestAnimationFrame(() => {
+        if (typeof window.requestIdleCallback === "function") idle = window.requestIdleCallback(start, { timeout: 2000 });
+        else timer = window.setTimeout(start, 300);
+      });
+    };
+    if (document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule, { once: true });
     return () => {
+      window.removeEventListener("load", schedule);
       cancelAnimationFrame(raf);
       if (idle) window.cancelIdleCallback(idle);
       if (timer) window.clearTimeout(timer);

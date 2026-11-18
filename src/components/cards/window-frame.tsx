@@ -35,7 +35,7 @@ export function WindowFrame({
             <span className="size-2 rounded-full bg-white/15" />
           </span>
           {label ? (
-            <span className="truncate font-mono text-[0.625rem] tracking-[0.12em] text-white/45 uppercase">
+            <span className="truncate font-mono text-[0.625rem] tracking-[0.12em] text-white/55 uppercase">
               {label}
             </span>
           ) : null}

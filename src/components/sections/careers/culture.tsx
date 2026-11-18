@@ -1,21 +1,35 @@
 import { Layers, Sparkles, Zap, type LucideIcon } from "lucide-react";
-import { Reveal } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import type { IconItem } from "@/lib/site";
 
 const ICONS: Record<string, LucideIcon> = { Zap, Layers, Sparkles };
 
-/** Culture block: intro paragraph + "how we work" principles in a hairline grid. */
-export function Culture({ intro, principles }: { intro: string; principles: readonly IconItem[] }) {
+/**
+ * Culture block: intro paragraph + "how we work" principles in a hairline grid.
+ * `eyebrow` / `heading` take the copy from site.ts (the defaults are draft fallbacks until
+ * site.pages.careers carries a culture heading).
+ */
+export function Culture({
+  intro,
+  principles,
+  eyebrow = "Culture",
+  heading = "Small senior teams. Real ownership.",
+}: {
+  intro: string;
+  principles: readonly IconItem[];
+  eyebrow?: string;
+  heading?: string;
+}) {
   return (
     <section aria-labelledby="culture-title" className="py-section">
       <Container>
         <div className="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
           <div className="flex flex-col gap-5">
-            <Eyebrow index="01">Culture</Eyebrow>
+            <Eyebrow index="01">{eyebrow}</Eyebrow>
             <h2 id="culture-title" className="text-display-md text-foreground">
-              Small senior teams. Real ownership.
+              {heading}
             </h2>
           </div>
           <Reveal>

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { site, type Stat } from "@/lib/site";
-import { Counter, DecodeText, Magnetic } from "@/components/motion";
+import { Counter } from "@/components/motion/counter";
+import { DecodeText } from "@/components/motion/decode-text";
+import { Magnetic } from "@/components/motion/magnetic";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { cn } from "@/lib/cn";
@@ -163,6 +165,7 @@ export function Hero() {
                     suffix={stat.suffix}
                     decimals={stat.decimals}
                     delay={INTRO.counter + i * 0.07}
+                    trigger="mount"
                   />
                 </dd>
               </div>

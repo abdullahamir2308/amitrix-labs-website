@@ -15,7 +15,8 @@ export function FeaturedPost({ post }: { post: PostSummary }) {
           src={post.cover}
           alt=""
           fill
-          priority
+          loading="eager"
+          fetchPriority="high"
           sizes="(min-width: 1024px) 50vw, 100vw"
           className="object-cover object-left transition-transform duration-700 ease-expo-out group-hover/featured:scale-[1.02] motion-reduce:transition-none"
         />
@@ -28,7 +29,7 @@ export function FeaturedPost({ post }: { post: PostSummary }) {
         <h2 className="text-heading-lg text-foreground">
           <Link
             href={post.url}
-            className="outline-none after:absolute after:inset-0 after:rounded-3xl focus-visible:after:ring-2 focus-visible:after:ring-ring"
+            className="outline-none after:absolute after:inset-0 after:rounded-3xl focus-visible:after:ring-2 focus-visible:after:ring-ring focus-visible:after:ring-inset"
           >
             {post.title}
           </Link>

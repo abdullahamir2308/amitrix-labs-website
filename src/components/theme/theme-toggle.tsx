@@ -14,6 +14,20 @@ const OPTIONS: { value: "light" | "dark" | "system"; label: string; Icon: Lucide
 
 const noopSubscribe = () => () => {};
 
+/**
+ * Switch theme without every colour transition on the page firing at once. Done here, on the
+ * user's click, instead of next-themes' `disableTransitionOnChange`: that option also runs on
+ * hydration, injecting and removing a global <style> (two full-document style recalcs, ~250ms
+ * of main-thread time on a mid-range phone) for a theme change that never happens.
+ */
+function withoutTransitions(apply: () => void) {
+  const style = document.createElement("style");
+  style.textContent = "*,*::before,*::after{transition:none!important}";
+  document.head.appendChild(style);
+  apply();
+  requestAnimationFrame(() => requestAnimationFrame(() => style.remove()));
+}
+
 /** True after hydration; false on the server and during hydration. */
 function useMounted() {
   return useSyncExternalStore(
@@ -30,7 +44,8 @@ function useMounted() {
  * before paint.
  */
 export function ThemeToggle({ className }: { className?: string }) {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme: setNextTheme } = useTheme();
+  const setTheme = (value: string) => withoutTransitions(() => setNextTheme(value));
   const mounted = useMounted();
   const active = mounted ? (theme ?? "system") : null;
   const groupId = useId();

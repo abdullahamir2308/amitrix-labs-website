@@ -14,7 +14,7 @@ function CalendarSketch() {
       </div>
       <div className="grid grid-cols-7 gap-1.5 text-center font-mono text-[0.6875rem] text-muted-foreground">
         {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
-          <span key={i} className="pb-1 opacity-70">
+          <span key={i} className="pb-1">
             {d}
           </span>
         ))}
@@ -26,7 +26,7 @@ function CalendarSketch() {
                 ? "aspect-square"
                 : available.has(d)
                   ? "flex aspect-square items-center justify-center rounded-md bg-indigo/12 text-foreground ring-1 ring-indigo/25"
-                  : "flex aspect-square items-center justify-center rounded-md opacity-50"
+                  : "flex aspect-square items-center justify-center rounded-md"
             }
           >
             {d >= 1 && d <= 30 ? d : ""}

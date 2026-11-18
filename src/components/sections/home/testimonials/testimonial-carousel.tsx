@@ -74,7 +74,6 @@ export function TestimonialCarousel({ slides, label }: { slides: TestimonialSlid
               return (
                 <figure
                   key={s.id}
-                  role="group"
                   aria-roledescription="slide"
                   aria-label={`${i + 1} of ${count}`}
                   aria-hidden={!on}

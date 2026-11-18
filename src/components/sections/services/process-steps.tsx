@@ -1,4 +1,4 @@
-import { Reveal } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
 import type { Service } from "@/lib/content";
 import { cn } from "@/lib/cn";
 

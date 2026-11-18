@@ -2,20 +2,43 @@ import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { Providers } from "@/components/providers";
-import { CustomCursor } from "@/components/motion";
+import { CustomCursor } from "@/components/motion/custom-cursor";
 import { Footer } from "@/components/layout/footer";
 import { RouteProgress } from "@/components/layout/route-progress";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SkipLink } from "@/components/layout/skip-link";
+import { site } from "@/lib/site";
 import "./globals.css";
 
+// Site-wide defaults. Pages build their own title/description/canonical/Open Graph with
+// createMetadata() from @/lib/seo (a page-level openGraph replaces this one wholesale).
+// The share image comes from src/app/opengraph-image.tsx unless a route has its own.
 export const metadata: Metadata = {
-  metadataBase: new URL("https://amitrixlabs.com"),
+  metadataBase: new URL(site.url),
   title: {
-    default: "Amitrix Labs",
-    template: "%s — Amitrix Labs",
+    default: site.seo.defaultTitle,
+    template: site.seo.titleTemplate,
   },
-  description: "We build software and AI that actually ships.",
+  description: site.seo.description,
+  applicationName: site.name,
+  keywords: [...site.seo.keywords],
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.name,
+  formatDetection: { email: false, address: false, telephone: false },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    locale: "en_US",
+    url: "/",
+    title: site.seo.defaultTitle,
+    description: site.seo.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: site.seo.defaultTitle,
+    description: site.seo.description,
+  },
 };
 
 export const viewport: Viewport = {

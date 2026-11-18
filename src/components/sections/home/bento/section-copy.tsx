@@ -1,4 +1,4 @@
-import { TextReveal } from "@/components/motion";
+import { TextReveal } from "@/components/motion/text-reveal";
 import type { SectionCopy } from "@/lib/site";
 
 /**

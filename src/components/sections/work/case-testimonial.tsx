@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Quote } from "lucide-react";
-import { Reveal } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
 import { Section } from "@/components/ui/section";
 import type { Testimonial } from "@/lib/content";
 

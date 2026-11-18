@@ -1,5 +1,6 @@
 import { ContentIcon } from "@/components/cards/content-icon";
-import { Reveal, SpotlightCard } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
+import { SpotlightCard } from "@/components/motion/spotlight-card";
 import { Section } from "@/components/ui/section";
 import type { Product } from "@/lib/content";
 import { cn } from "@/lib/cn";

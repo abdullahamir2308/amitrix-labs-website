@@ -42,7 +42,7 @@ export function PostCard({ post, className, headingLevel = "h3" }: { post: PostS
       <div className="flex flex-1 flex-col gap-4 p-6">
         <PostMeta post={post} />
         <Heading className="text-heading-sm text-foreground">
-          <Link href={post.url} className="outline-none after:absolute after:inset-0 after:rounded-2xl focus-visible:after:ring-2 focus-visible:after:ring-ring">
+          <Link href={post.url} className="outline-none after:absolute after:inset-0 after:rounded-2xl focus-visible:after:ring-2 focus-visible:after:ring-ring focus-visible:after:ring-inset">
             {post.title}
           </Link>
         </Heading>

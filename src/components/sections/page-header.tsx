@@ -1,6 +1,6 @@
 // Shared inner-page header (Phase 4). Server component.
 import type { ReactNode } from "react";
-import { DecodeText } from "@/components/motion";
+import { DecodeText } from "@/components/motion/decode-text";
 import { Container } from "@/components/ui/container";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { cn } from "@/lib/cn";

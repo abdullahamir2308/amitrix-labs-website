@@ -1,4 +1,4 @@
-import { Counter } from "@/components/motion";
+import { Counter } from "@/components/motion/counter";
 import { Section } from "@/components/ui/section";
 import { site, type Stat } from "@/lib/site";
 import { sectionHeader } from "./bento/section-copy";

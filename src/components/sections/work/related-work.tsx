@@ -1,6 +1,6 @@
 import { toWorkCardData } from "@/components/cards/to-card-data";
 import { WorkCard } from "@/components/cards/work-card";
-import { Reveal } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 import { Section, type SectionProps } from "@/components/ui/section";
 import type { WorkItem } from "@/lib/content";

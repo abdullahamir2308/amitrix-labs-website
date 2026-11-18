@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import { Reveal } from "@/components/motion";
+import { Reveal } from "@/components/motion/reveal";
 import type { TeamMember } from "@/lib/content";
 
 function SocialLink({ href, label }: { href: string; label: string }) {

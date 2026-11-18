@@ -5,20 +5,26 @@ import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown, LoaderCircle, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
-import {
-  BUDGETS,
-  HONEYPOT_FIELD,
-  OTHER_SERVICE,
-  contactSchema,
-  getFieldErrors,
-  type ContactField,
-  type ContactFieldErrors,
-  type ContactResponse,
-} from "@/lib/contact-schema";
+import type * as Schema from "@/lib/contact-schema";
+import type { ContactField, ContactFieldErrors, ContactResponse } from "@/lib/contact-schema";
 import { EASE } from "@/lib/motion";
+import { site } from "@/lib/site";
 import { SuccessCheck } from "./success-check";
 
 export type ServiceOption = { value: string; label: string };
+
+/*
+ * The zod schema (src/lib/contact-schema.ts) is loaded on demand: the header's "Book a call"
+ * link prefetches /contact from every page, and zod would otherwise ride along (~35 KB gzip).
+ * It starts loading when the visitor first focuses the form. The constants below mirror the
+ * schema module and are typed against it, so any drift is a type error.
+ */
+const BUDGETS: typeof Schema.BUDGETS = site.contact.budgets;
+const OTHER_SERVICE: typeof Schema.OTHER_SERVICE = "other";
+const HONEYPOT_FIELD: typeof Schema.HONEYPOT_FIELD = "website";
+
+let schemaModule: Promise<typeof Schema> | null = null;
+const loadSchema = () => (schemaModule ??= import("@/lib/contact-schema"));
 
 type Status =
   | { kind: "idle" }
@@ -27,7 +33,7 @@ type Status =
   | { kind: "error"; message: string };
 
 const control =
-  "w-full rounded-lg border border-input bg-surface-raised px-3.5 text-body-sm text-foreground transition-[border-color,box-shadow] duration-200 outline-none placeholder:text-muted-foreground/80 hover:border-foreground/25 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/35 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/15";
+  "w-full rounded-lg border border-input bg-surface-raised px-3.5 text-body-sm text-foreground transition-[border-color,box-shadow] duration-200 outline-none placeholder:text-muted-foreground hover:border-foreground/25 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/35 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/15";
 
 function Field({
   id,
@@ -97,25 +103,27 @@ export function ContactForm({ services, email }: { services: ServiceOption[]; em
   const [submitted, setSubmitted] = useState(false);
   const [status, setStatus] = useState<Status>({ kind: "idle" });
 
-  const validate = () => {
+  const validate = async () => {
     const form = formRef.current;
     if (!form) return null;
+    const { contactSchema, getFieldErrors } = await loadSchema();
     const result = contactSchema.safeParse(readForm(form));
-    setErrors(result.success ? {} : getFieldErrors(result.error));
-    return result;
+    const fieldErrors: ContactFieldErrors = result.success ? {} : getFieldErrors(result.error);
+    setErrors(fieldErrors);
+    return { ok: result.success, fieldErrors };
   };
 
   const onChange = () => {
-    if (submitted) validate();
+    if (submitted) void validate();
   };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitted(true);
     const form = event.currentTarget;
-    const result = validate();
-    if (!result?.success) {
-      const first = result ? Object.keys(getFieldErrors(result.error))[0] : undefined;
+    const result = await validate();
+    if (!result?.ok) {
+      const first = result ? Object.keys(result.fieldErrors)[0] : undefined;
       if (first) form.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
       return;
     }
@@ -184,6 +192,7 @@ export function ContactForm({ services, email }: { services: ServiceOption[]; em
             noValidate
             onSubmit={onSubmit}
             onChange={onChange}
+            onFocus={() => void loadSchema()}
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}

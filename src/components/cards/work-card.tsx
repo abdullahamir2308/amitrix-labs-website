@@ -60,7 +60,8 @@ export function WorkCard({
           alt=""
           fill
           sizes={sizes}
-          priority={priority}
+          loading={priority ? "eager" : undefined}
+          fetchPriority={priority ? "high" : undefined}
           placeholder={item.coverImage.blurDataURL ? "blur" : "empty"}
           className="object-cover transition-transform duration-700 ease-expo-out group-hover/work:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover/work:scale-100"
         />

@@ -111,7 +111,7 @@ export function Terminal({ command, lines }: { command: string; lines: readonly 
                   i < shownCount ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0",
                 )}
               >
-                <span className="w-12 shrink-0 text-right text-white/30 tabular-nums">{stamps[i]}</span>
+                <span className="w-12 shrink-0 text-right text-white/50 tabular-nums">{stamps[i]}</span>
                 <span className={TONE[line.tone ?? "default"]}>{line.text}</span>
               </li>
             ))}

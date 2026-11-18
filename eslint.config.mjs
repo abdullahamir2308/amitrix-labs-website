@@ -15,6 +15,7 @@ const eslintConfig = defineConfig([
     ".velite/**",
     "public/content/**",
     "docs/**",
+    "src/lib/*.generated.ts",
   ]),
 ]);
 
